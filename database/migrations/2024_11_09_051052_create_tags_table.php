@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name', length:32);
-            $table->string('notes', length:256);
             $table->timestamps();
         });
     }

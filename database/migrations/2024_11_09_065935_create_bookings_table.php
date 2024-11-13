@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("review")->nullable();
             $table->integer("stars")->nullable();
             $table->string("payment_url")->nullable();
-            $table->integer("is_payment_validated")->nullable();
+            $table->integer("is_payment_validated")->default(0)->nullable();
             $table->timestamps();
         });
     }

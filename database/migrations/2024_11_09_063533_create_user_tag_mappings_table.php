@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('user_tag_mappings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
-            $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');        
+            $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');    
+            $table->string("notes")->nullable();    
             $table->timestamps();
         });
     }

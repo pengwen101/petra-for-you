@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class EventCategorySeeder extends Seeder
 {
@@ -12,6 +13,13 @@ class EventCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        //
+
+        $categories = ['panel discussion', 'talkshow', 'workshop', 'community service', 'open recruitment'];
+
+        foreach($categories as $category){
+            DB::table("event_categories")->insert([
+                'name' => $category,
+            ]);
+        }
     }
 }
