@@ -9,8 +9,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+        return view('user.dashboard');
+    })->name('user.dashboard');
     Route::get('/events', function () {
         return view('user.events');
     })->name('events');
