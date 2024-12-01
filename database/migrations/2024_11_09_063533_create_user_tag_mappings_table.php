@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');    
-            $table->string("notes")->nullable();    
+            $table->string("avg_score");    
             $table->timestamps();
         });
     }

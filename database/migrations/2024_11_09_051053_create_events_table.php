@@ -19,9 +19,11 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->time('start_time');
             $table->time('end_time')->nullable();
-            $table->string('description');
+            $table->longText('description');
             $table->decimal('price', total: 10, places:2)->nullable();
             $table->foreignId('organizer_id')->constrained('organizers', 'id')->onDelete('cascade');
+            $table->foreignId('event_category_id')->constrained('event_categories', 'id')->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');
             $table->integer('is_shown')->default(1);
             $table->timestamps();
         });
