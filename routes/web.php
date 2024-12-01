@@ -26,23 +26,27 @@ Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(func
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-    // return all events that are active or 
-    // single event base on the id (use query parameter id) or 
-    // all events base on user_id (use query parameter user_id)
-    Route::get('/events', [EventController::class, 'getEvents'])->name('events');
-    
-    // return all event base on the user id
-    Route::get('/events/bookings/{user}', [EventController::class, 'getUserBookings']);
+    Route::group(['prefix' => 'events', 'as' => 'events.'], function () {
+        // return all events that are active or 
+        // single event base on the id (use query parameter id) or 
+        Route::get('/', [EventController::class, 'getEvents'])->name('get');
+            
+        // return all event base on the user id
+        Route::get('bookings/{user}', [EventController::class, 'getUserBookings'])->name('bookings');
+            
+        // return all bookmarks base on the user id
+        Route::get('bookmarks/{user}', [EventController::class, 'getUserBookmarks'])->name('bookmarks');
 
-    //return tags or category of an event
-    Route::get('/events/{event}/filter', [EventController::class, 'getEventTagsOrCategory']);
+        // add event to bookmark
+        Route::post('bookmarks', [EventController::class, 'addBookmark'])->name('addBookmark'); 
+        
+        //return tags or category of an event
+        Route::get('{event}/filter', [EventController::class, 'getEventTagsOrCategory'])->name('getTagsOrCategory');
+            
+        // filter event base on category and tags
+        Route::get('filter', [EventController::class, 'filterEvents'])->name('filter');
+    });
     
-    // return all bookmarks base on the user id
-    Route::get('/events/bookmarks/{user}', [EventController::class, 'getUserBookmarks']);
-    
-    // filter event base on category and tags
-    Route::get('/events/filter', [EventController::class, 'filterEvents']);
-
 
 })->middleware(['auth', 'verified']);
 

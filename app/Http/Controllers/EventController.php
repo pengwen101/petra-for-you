@@ -60,16 +60,41 @@ class EventController extends Controller
 
         if ($request->has('category')) {
             $events = $events->whereHas('eventCategories', function ($query) use ($request) {
-                $query->where('name', $request->get('category'));
+                $query->where('event_category_id', $request->get('category'));
             });
         }
 
         if ($request->has('tags')) {
             $events = $events->whereHas('tags', function ($query) use ($request) {
-                $query->where('name', $request->get('tags'));
+                $query->where('tag_id', $request->get('tags'));
             });
         }
 
         return response()->json($events->get());
+    }
+
+    public function addBookmark(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'event_id' => 'required|exists:events,id',
+        ]);
+        try {
+            // search bookmark and delete if found
+            $bookmark = Bookmark::where('user_id', $request->get('user_id'))
+                ->where('event_id', $request->get('event_id'))
+                ->first();
+            if ($bookmark) {
+                $bookmark->delete();
+                return response()->json(['message' => 'Bookmark removed']);
+            }
+            else {
+                $bookmark = Bookmark::create($request->all());
+                return response()->json(['message' => 'Bookmark added']);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
