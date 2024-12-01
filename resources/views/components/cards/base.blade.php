@@ -9,13 +9,13 @@
             <div class="mb-2">
                 <a href="#">
                     @isset($title)
-                        <h5 class="mb-1 h-[3rem] text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $title }}</h5>    
+                        <h5 class="mb-1 h-[3rem] text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{ $title }}</h5>    
                     @endisset
                 </a>
             </div>
             <div>
                 @isset($description)
-                    <p class="mb-2 h-[3rem] font-normal text-gray-700 dark:text-gray-400">{{ $description }}</p>
+                    <p class="mb-2 h-[3rem] text-sm font-normal text-gray-700 dark:text-gray-400">{{ $description }}</p>
                 @endisset
                 {{ $slot }}
             

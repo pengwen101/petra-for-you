@@ -1,10 +1,12 @@
 <?php
 
 use App\Models\Event;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
 use App\Models\Booking;
 use App\Models\Bookmark;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -24,32 +26,24 @@ Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(func
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
-    //return all events that are active
-    Route::get('/events', function () {
-        $events = Event::where('is_shown', 1)->get();
-        return response()->json($events);
-    })->name('events');
-    // return a single event base on the id
-    Route::get('/events/{event}', function ($event) {
-        $event = Event::where('is_shown', 1)->find($event);
-        return response()->json($event);
-    })->name('events.show');
+    // return all events that are active or 
+    // single event base on the id (use query parameter id) or 
+    // all events base on user_id (use query parameter user_id)
+    Route::get('/events', [EventController::class, 'getEvents'])->name('events');
+    
     // return all event base on the user id
-    Route::get('/events/user/{user}', function ($user) {
-        $bookings = Booking::where('user_id', $user)->get();
-        $events = $bookings->map(function ($booking) {
-            return Event::find($booking->event_id);
-        });
-        return response()->json($events);
-    })->name('events.user'); 
+    Route::get('/events/bookings/{user}', [EventController::class, 'getUserBookings']);
+
+    //return tags or category of an event
+    Route::get('/events/{event}/filter', [EventController::class, 'getEventTagsOrCategory']);
+    
     // return all bookmarks base on the user id
-    Route::get('/bookmarks/user/{user}', function ($user) {
-        $bookmarks = Bookmark::where('user_id', $user)->get();
-        $events = $bookmarks->map(function ($bookmark) {
-            return Event::find($bookmark->event_id);
-        });
-        return response()->json($events);
-    })->name('bookmarks.user');
+    Route::get('/events/bookmarks/{user}', [EventController::class, 'getUserBookmarks']);
+    
+    // filter event base on category and tags
+    Route::get('/events/filter', [EventController::class, 'filterEvents']);
+
+
 })->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
