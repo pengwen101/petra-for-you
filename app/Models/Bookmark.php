@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Bookmark extends Pivot
 {
+    protected $table = 'bookmarks';
     protected $fillable = [
         'user_id',
         'event_id',
