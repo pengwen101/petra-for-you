@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Pivot
 {
-    protected $table = 'bookings';
+    protected $table = 'bookings'; 
+
     protected $fillable = [
         'user_id',
         'event_id',
@@ -18,11 +19,11 @@ class Booking extends Pivot
         'is_payment_validated'
     ];
 
-    public function user():BelongsTo{
+    public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function event():BelongsTo{
+    public function event(){
         return $this->belongsTo(Event::class);
     }
 }
