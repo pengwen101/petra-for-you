@@ -93,10 +93,14 @@ class EventController extends Controller
                 foreach($eventTagMappings as $eventTagMapping){
                     $userTagMapping = UserTagMapping::where('user_id', $request->user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
                     if(isset($userTagMapping)){
-                        $userTagMapping->update([
-                            'avg_score' => ($userTagMapping->avg_score * ($userTagMapping->count ) ) - 2.75,
-                            'count' => $userTagMapping->count - 1,
-                        ]);
+                        if($userTagMapping->count-1 == 0){
+                            $userTagMapping->delete();
+                        }else{
+                            $userTagMapping->update([
+                                'avg_score' => ($userTagMapping->avg_score * ($userTagMapping->count ) ) - 2.75,
+                                'count' => $userTagMapping->count - 1,
+                            ]);
+                        }
                     }
                 }
                 
