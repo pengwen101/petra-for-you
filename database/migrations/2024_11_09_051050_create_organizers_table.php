@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('organizers', function (Blueprint $table) {
             $table->id();
             $table->string('name', length: 64);
-            $table->string('description');
+            $table->longText('description');
             $table->enum('type', ['universitas', 'fakultas', 'jurusan', 'lembaga kemahasiswaan']);
             $table->string('instagram_link')->nullable();
             $table->string('website_link')->nullable();

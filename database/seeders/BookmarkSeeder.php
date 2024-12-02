@@ -23,7 +23,7 @@ class BookmarkSeeder extends Seeder
             $event_count_per_user = rand(2, 6);
             $faker = Factory::create();
             for($j = 1; $j <= $event_count_per_user; $j++){
-                DB::table("user_event_mappings")->insert([
+                DB::table("bookmarks")->insert([
                     'user_id' => rand(1, $user_id_count),
                     'event_id' => rand(1, $event_id_count),
                     'notes' => $faker->words(3, true),

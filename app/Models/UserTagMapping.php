@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserTagMapping extends Pivot
 {
+
+    protected $table = 'user_tag_mappings';
+
     protected $fillable = [
-        'name',
-        'notes',
+        'user_id',
+        'tag_id',
+        'avg_score',
+        'count',
     ];
 
     public function user():BelongsTo{

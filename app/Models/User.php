@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Booking;
 
 class User extends Authenticatable
 {
@@ -55,11 +56,15 @@ class User extends Authenticatable
     }
 
     public function tags():BelongsToMany{
-        return $this->belongsToMany(Tag::class, 'user_tag_mappings', 'user_id', 'tag_id')->withPivot('notes');
+        return $this->belongsToMany(Tag::class, 'user_tag_mappings', 'user_id', 'tag_id')->withPivot('avg_score');
     }
 
     public function userTagMappings():HasMany{
         return $this->hasMany(Tag::class);
+    }
+
+    public function bookings():HasMany{
+        return $this->hasMany(Booking::class);
     }
 
    

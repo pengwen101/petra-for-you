@@ -16,12 +16,17 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([   
+            UserSeeder::class,
             TagSeeder::class,
             EventCategorySeeder::class,
             OrganizerSeeder::class,
             EventSeeder::class,
             EventEventCategoryMappingSeeder::class,
-            EventTagMappingSeeder::class
+            EventTagMappingSeeder::class,
+            BookingSeeder::class,
+            // BookmarkSeeder::class,
+            RoleSeeder::class,
+            // UserTagMappingSeeder::class,
         ]);
     }
 }

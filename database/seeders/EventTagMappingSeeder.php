@@ -20,11 +20,11 @@ class EventTagMappingSeeder extends Seeder
         $tag_id_count = Tag::get()->count();
 
         for($i = 1; $i <=$event_id_count; $i++){
-            $tag_count_per_event = rand(2, 6);
+            $tag_count_per_event = rand(1, 3);
             $faker = Factory::create();
             for($j = 1; $j <= $tag_count_per_event; $j++){
                 DB::table("event_tag_mappings")->insert([
-                    'event_id' => rand(1, $event_id_count),
+                    'event_id' => $i,
                     'tag_id' => rand(1, $tag_id_count),
                     'notes' => $faker->words(3, true),
                 ]);

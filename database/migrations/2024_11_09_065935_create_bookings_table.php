@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId("user_id")->constrained("users", "id")->onDelete("cascade");
             $table->foreignId("event_id")->constrained("events", "id")->onDelete("cascade");
             $table->enum("status", ["not started", "ongoing", "finished"]);
-            $table->string("review")->nullable();
+            $table->longText("review")->nullable();
             $table->integer("stars")->nullable();
             $table->string("payment_url")->nullable();
             $table->integer("is_payment_validated")->default(0)->nullable();
