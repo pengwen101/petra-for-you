@@ -8,6 +8,9 @@
                 {{ $slot }}
             </div>
             <p class="mb-3 h-3rem font-normal text-gray-700 dark:text-gray-400">{{ $description }}</p>
+            <div class = "flex flex-wrap w-full gap-3">
+               {!! $tags !!}
+            </div>
         </div>
     </a>
     <div class="w-full flex">

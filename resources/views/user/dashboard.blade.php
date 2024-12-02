@@ -41,11 +41,17 @@
                         `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                     end_date =
                         `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+
+                    let eventTagsHtml = '';
+                    event.tags.forEach(tag => {
+                        eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                    });
                     html += `
                         <div class=' flex-none w-full sm:w-[49%] shadow rounded-lg '>
                             <x-cards.bookmark>
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
+                                <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
                                 <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                 <x-slot name="event_id">${event.id}</x-slot> 
@@ -76,11 +82,18 @@
                         `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                     end_date =
                         `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+
+                    let eventTagsHtml = '';
+                    event.tags.forEach(tag => {
+                        eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                    });
+
                     html += `
                         <div class=' flex-none w-full shadow rounded-lg '>
                             <x-cards.bookmark>
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
+                                <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
                                 <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                 <x-slot name="event_id">${event.id}</x-slot> 
@@ -164,7 +177,7 @@
                 data: {
                     event_id: $(this).siblings('input[name="event_id"]').val(),
                     user_id: $(this).siblings('input[name="user_id"]').val(),
-                    new_score: 3,
+                    new_score: 2.75,
                 },
                 success: function(response) {
                     console.log("INI RESPONSE UPDATE TAG", response);

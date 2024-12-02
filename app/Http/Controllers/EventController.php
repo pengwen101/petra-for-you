@@ -16,7 +16,7 @@ class EventController extends Controller
             $events = Event::where('is_shown', 1)->find($request->get('id'));
             return response()->json($events);
         }
-        $events = Event::where('is_shown', 1)->get();
+        $events = Event::where('is_shown', 1)->with('tags', 'eventCategories')->get();
         return response()->json($events);
     }
 

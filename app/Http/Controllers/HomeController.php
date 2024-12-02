@@ -39,7 +39,7 @@ class HomeController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'event_id' => 'required|exists:events,id',
-            'new_score' => 'required|integer',
+            'new_score' => 'required',
         ]);
 
         $eventTagMappings = EventTagMapping::where('event_id', $request->event_id)->get();
