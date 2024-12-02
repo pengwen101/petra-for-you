@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function getSuggestedEvents(User $user){
-        $total_count = UserTagMapping::where('user_id', $user->id)->sum('count');
+        $total_count = UserTagMapping::where('user_id', $user->id)->where('count', '!=', 0)->sum('count');
+        if($total_count == 0){
+            return response()->json();
+        }
 
-        $userTags = UserTagMapping::where('user_id', $user->id)
+        $userTags = UserTagMapping::where('user_id', $user->id)->where('count', '!=', 0)
         ->get()
         ->map(function ($mapping) use ($total_count) {
             $mapping->weighted_score = ($mapping->avg_score-2.5) * ($mapping->count / $total_count);

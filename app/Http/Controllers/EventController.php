@@ -6,6 +6,8 @@ use App\Models\Event;
 use App\Models\Booking;
 use App\Models\Bookmark;
 use Illuminate\Http\Request;
+use App\Models\UserTagMapping;
+use App\Models\EventTagMapping;
 use App\Http\Controllers\Controller;
 
 class EventController extends Controller
@@ -84,12 +86,45 @@ class EventController extends Controller
             $bookmark = Bookmark::where('user_id', $request->get('user_id'))
                 ->where('event_id', $request->get('event_id'))
                 ->first();
+
+            $eventTagMappings = EventTagMapping::where('event_id', $request->event_id)->get();
+
             if ($bookmark) {
+                foreach($eventTagMappings as $eventTagMapping){
+                    $userTagMapping = UserTagMapping::where('user_id', $request->user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
+                    if(isset($userTagMapping)){
+                        $userTagMapping->update([
+                            'avg_score' => ($userTagMapping->avg_score * ($userTagMapping->count ) ) - 2.75,
+                            'count' => $userTagMapping->count - 1,
+                        ]);
+                    }
+                }
+                
                 $bookmark->delete();
+
                 return response()->json(['message' => 'Bookmark removed']);
             }
             else {
+
                 $bookmark = Bookmark::create($request->all());
+
+                foreach($eventTagMappings as $eventTagMapping){
+                    $userTagMapping = UserTagMapping::where('user_id', $request->user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
+                    if(!$userTagMapping){
+                        UserTagMapping::create([
+                            'user_id' => $request->user_id,
+                            'tag_id' => $eventTagMapping->tag_id,
+                            'avg_score' => 2.75,
+                            'count' => 1,
+                        ]);
+                    }else{
+                        $userTagMapping->update([
+                            'avg_score' => ($userTagMapping->avg_score + 2.75)/($userTagMapping->count + 1 ),
+                            'count' => $userTagMapping->count + 1,
+                        ]);
+                    }
+                }
+
                 return response()->json(['message' => 'Bookmark added']);
             }
         }

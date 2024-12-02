@@ -152,6 +152,7 @@
             } else {
                 $(this).find('svg').attr('fill', 'red');
             }
+            
             // Submit the form after changing the color
             $.post({
                 url: '/api/events/bookmarks',
@@ -160,6 +161,7 @@
                     user_id: $(this).siblings('input[name="user_id"]').val()
                 },
                 success: function(response) {
+                   
                     console.log(response);
                 },
                 error: function(xhr) {
@@ -171,24 +173,24 @@
             });
 
             //Update user tag mapping
-            $.ajax({
-                url: '/api/events/suggested/update',
-                type: 'PUT',
-                data: {
-                    event_id: $(this).siblings('input[name="event_id"]').val(),
-                    user_id: $(this).siblings('input[name="user_id"]').val(),
-                    new_score: 2.75,
-                },
-                success: function(response) {
-                    console.log("INI RESPONSE UPDATE TAG", response);
-                },
-                error: function(xhr) {
-                    console.log(xhr);
-                },
-                complete: function() {
-                    console.log('completed');
-                }
-            });
+            // $.ajax({
+            //     url: '/api/events/suggested/update',
+            //     type: 'PUT',
+            //     data: {
+            //         event_id: $(this).siblings('input[name="event_id"]').val(),
+            //         user_id: $(this).siblings('input[name="user_id"]').val(),
+            //         new_score: 2.75,
+            //     },
+            //     success: function(response) {
+            //         console.log("INI RESPONSE UPDATE TAG", response);
+            //     },
+            //     error: function(xhr) {
+            //         console.log(xhr);
+            //     },
+            //     complete: function() {
+            //         console.log('completed');
+            //     }
+            // });
         });
     });
 </script>
