@@ -7,25 +7,61 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
+
+
+            <h2 class = "text-xl font-bold">Suggested Events</h2>
+
+            <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto ">
+                
+               
             </div>
+
+            <h2 class = "text-xl font-bold mt-5">All Events</h2>
 
             <div id="event_list" class="py-5 grid grid-cols-1 sm:grid-cols-2 gap-5 pb-10">
             </div>
 
         </div>
     </div>
-
-    <div class="container" id="eventList">
-
-    </div>
 </x-app-layout>
 
 <script>
     $('document').ready(function() {
+        $.ajax({
+            url: '/api/events/suggested/{{Auth::id()}}',
+            type: 'GET',
+            success: function(response) {
+                let html = '';
+                console.log(response)
+                response.forEach((event, index) => {
+                    let truncatedDescription = event.description.substring(0, 100);
+                    let start_date = new Date(event.start_date);
+                    let end_date = new Date(event.end_date);
+                    start_date =
+                        `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
+                    end_date =
+                        `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+                    html += `
+                        <div class=' flex-none w-full sm:w-[49%] shadow rounded-lg '>
+                            <x-cards.bookmark>
+                                <x-slot name="title">${event.title}</x-slot>
+                                <x-slot name="description">${truncatedDescription} ...</x-slot>
+                                <x-slot name="random">${event.id}</x-slot> 
+                                <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
+                                <x-slot name="event_id">${event.id}</x-slot> 
+                            </x-cards.bookmark>
+                        </div>
+                    `;
+                });
+                $('#suggested-events').html(html);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            },
+            complete: function() {
+                console.log('complete');
+            }
+        });
         $.ajax({
             url: '/api/events',
             type: 'GET',
@@ -112,6 +148,26 @@
                 },
                 success: function(response) {
                     console.log(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                },
+                complete: function() {
+                    console.log('completed');
+                }
+            });
+
+            //Update user tag mapping
+            $.ajax({
+                url: '/api/events/suggested/update',
+                type: 'PUT',
+                data: {
+                    event_id: $(this).siblings('input[name="event_id"]').val(),
+                    user_id: $(this).siblings('input[name="user_id"]').val(),
+                    new_score: 3,
+                },
+                success: function(response) {
+                    console.log("INI RESPONSE UPDATE TAG", response);
                 },
                 error: function(xhr) {
                     console.log(xhr);

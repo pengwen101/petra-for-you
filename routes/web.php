@@ -32,6 +32,12 @@ Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         // return all events that are active or 
         // single event base on the id (use query parameter id) or 
         Route::get('/', [EventController::class, 'getEvents'])->name('get');
+
+        //return suggested events to user
+        Route::get('/suggested/{user}', [HomeController::class, 'getSuggestedEvents'])->name("suggestedEvents");
+
+        //update user tag mapping
+        Route::put('/suggested/update', [HomeController::class, 'updateUserTagMapping'])->name('updateUserTagMapping');
             
         // return all event base on the user id
         Route::get('bookings/{user}', [EventController::class, 'getUserBookings'])->name('bookings');

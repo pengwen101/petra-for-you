@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EventTagMapping extends Pivot
 {
+    protected $table = 'event_tag_mappings';
     protected $fillable = [
         'name',
         'notes',

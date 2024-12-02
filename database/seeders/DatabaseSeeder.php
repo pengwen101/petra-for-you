@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
             EventEventCategoryMappingSeeder::class,
             EventTagMappingSeeder::class,
             BookingSeeder::class,
-            BookmarkSeeder::class,
+            // BookmarkSeeder::class,
             RoleSeeder::class,
-            UserTagMappingSeeder::class,
+            // UserTagMappingSeeder::class,
         ]);
     }
 }
