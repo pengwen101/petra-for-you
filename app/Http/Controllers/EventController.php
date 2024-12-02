@@ -12,6 +12,10 @@ use App\Http\Controllers\Controller;
 
 class EventController extends Controller
 {
+    public function show(Event $event)
+    {
+        return view('detail.detailEvent', compact('event'));
+    }
     public function getEvents(Request $request)
     {
         if ($request->has('id') && $request->get('id') != null) {
