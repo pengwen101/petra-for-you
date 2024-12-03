@@ -1,4 +1,14 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-tr from-white to-slate-500 min-h-screen overflow-hidden relative">
     <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
         <!-- Event Title -->
         <div class="text-center">
@@ -56,4 +66,6 @@
             </a>
         </div>
     </div>
-</x-app-layout>
+</body>
+
+</html>

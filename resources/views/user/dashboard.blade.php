@@ -12,8 +12,8 @@
             <h2 class = "text-xl font-bold">Suggested Events</h2>
 
             <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto ">
-                
-               
+
+
             </div>
 
             <h2 class = "text-xl font-bold mt-5">All Events</h2>
@@ -52,9 +52,9 @@
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
-                                <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="random">${event.id}</x-slot>
                                 <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
-                                <x-slot name="event_id">${event.id}</x-slot> 
+                                <x-slot name="event_id">${event.id}</x-slot>
                             </x-cards.bookmark>
                         </div>
                     `;
@@ -94,7 +94,7 @@
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
-                                <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="random">${event.id}</x-slot>
                                 <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                 <x-slot name="event_id">${event.id}</x-slot> 
                             </x-cards.bookmark>
@@ -152,7 +152,7 @@
             } else {
                 $(this).find('svg').attr('fill', 'red');
             }
-            
+
             // Submit the form after changing the color
             $.post({
                 url: '/api/events/bookmarks',
@@ -161,7 +161,7 @@
                     user_id: $(this).siblings('input[name="user_id"]').val()
                 },
                 success: function(response) {
-                   
+
                     console.log(response);
                 },
                 error: function(xhr) {
