@@ -63,7 +63,8 @@
     $(document).ready(function() {
         let user_id = {{ Auth::user()->id }};
         $.ajax({
-            url: `/api/events/bookings/${user_id}`,
+            // url: `/api/events/bookings/${user_id}`,
+            url: `/api/events`,
             type: "GET",
             success: function(response) {
                 if (response) {
@@ -143,8 +144,7 @@
                             </div>
                         `;
                         $('.bookmark-alert').html(html);
-                    } 
-                    else {
+                    } else {
                         response.forEach((event, index) => {
                             let truncatedDescription = event.description.substring(0, 100);
                             let start_date = new Date(event.start_date);
@@ -153,11 +153,17 @@
                                 `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                             end_date =
                                 `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+                            let eventTagsHtml = '';
+                            event.tags.forEach(tag => {
+                                eventTagsHtml +=
+                                    `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                            });
                             html += `
                                 <div class=' flex-none w-full shadow rounded-lg '>
                                     <x-cards.bookmark>
                                         <x-slot name="title">${event.title}</x-slot>
                                         <x-slot name="description">${truncatedDescription} ...</x-slot>
+                                        <x-slot name="tags">${eventTagsHtml}</x-slot>
                                         <x-slot name="random">${event.id}</x-slot> 
                                         <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                         <x-slot name="event_id">${event.id}</x-slot>
@@ -165,7 +171,7 @@
                                 </div>
                             `;
                         });
-                            
+
                         $('#user_bookmark_list').html(html);
                     }
                 }
@@ -189,8 +195,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-         // Fetch bookmarked events
-         function fetchBookmarkedEvents() {
+        // Fetch bookmarked events
+        function fetchBookmarkedEvents() {
             $.ajax({
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
                 type: 'GET',
@@ -210,7 +216,7 @@
             });
         }
         fetchBookmarkedEvents();
-        
+
         $(document).on('click', '.bookmark', function(e) {
             e.preventDefault();
             if ($(this).find('svg').attr('fill') == 'red') {

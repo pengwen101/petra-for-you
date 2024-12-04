@@ -13,7 +13,7 @@
 
             <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto ">
                 
-               
+                
             </div>
 
             <h2 class = "text-xl font-bold mt-5">All Events</h2>
@@ -75,7 +75,7 @@
                 let eventList = $('#event-list');
                 let html = '';
                 response.forEach((event, index) => {
-                    let truncatedDescription = event.description.substring(0, 100);
+                    let truncatedDescription = event.description.substring(0, 60);
                     let start_date = new Date(event.start_date);
                     let end_date = new Date(event.end_date);
                     start_date =

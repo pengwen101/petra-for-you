@@ -24,19 +24,32 @@ class EventController extends Controller
 
     public function getUserBookings($user)
     {
-        $bookings = Booking::where('user_id', $user)->get();
-        $events = $bookings->map(function ($booking) {
-            return Event::find($booking->event_id);
-        });
+        // Get all event IDs from the bookings for the given user
+        $eventIds = Booking::where('user_id', $user)->pluck('event_id');
+
+        // Fetch all events with the collected event IDs and load their tags and eventCategories
+        $events = Event::with('tags', 'eventCategories')
+                        ->whereIn('id', $eventIds)
+                        ->get();
+
         return response()->json($events);
     }
 
     public function getUserBookmarks($user)
     {
-        $bookmarks = Bookmark::where('user_id', $user)->get();
-        $events = $bookmarks->map(function ($bookmark) {
-            return Event::find($bookmark->event_id);
-        });
+        // $bookmarks = Bookmark::where('user_id', $user)->get();
+        // $events = $bookmarks->map(function ($bookmark) {
+        //     return Event::with('tags', 'eventCategories')->whereIn('id', $bookmark->event_id)->get();
+        // });
+        // return response()->json($events);
+        // Get all event IDs from the bookmarks for the given user
+        $eventIds = Bookmark::where('user_id', $user)->pluck('event_id');
+
+        // Fetch all events with the collected event IDs and load their tags and eventCategories
+        $events = Event::with('tags', 'eventCategories')
+                    ->whereIn('id', $eventIds)
+                    ->get();
+
         return response()->json($events);
     }
 
