@@ -49,16 +49,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-            <h2 class = "text-xl font-bold">Suggested Events</h2>
+            <h2 class = "text-xl font-bold dark:text-gray-200">Suggested Events</h2>
 
-            <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto ">
-                
-                
+            <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto dark:text-gray-200 ">
             </div>
 
-            <h2 class = "text-xl font-bold mt-5">All Events</h2>
+            <h2 class = "text-xl font-bold mt-5 dark:text-gray-200">All Events</h2>
 
-            <div id="event_list" class="py-5 grid grid-cols-1 sm:grid-cols-2 gap-5 pb-10">
+            <div id="event_list" class="py-5 grid grid-cols-1 sm:grid-cols-2 gap-5 pb-10 dark:text-gray-200">
             </div>
 
         </div>
@@ -89,7 +87,7 @@
             });
 
         $.ajax({
-            url: '/api/events/suggested/{{Auth::id()}}',
+            url: '/api/events/suggested/{{ Auth::id() }}',
             type: 'GET',
             success: function(response) {
                 let html = '';
@@ -105,7 +103,8 @@
 
                     let eventTagsHtml = '';
                     event.tags.forEach(tag => {
-                        eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                        // eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                        eventTagsHtml += `<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
                     });
                     html += `
                         <div class=' flex-none w-full sm:w-[49%] shadow rounded-lg '>
@@ -114,7 +113,9 @@
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
-                                <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
+                                <x-slot name="start_date">${start_date}</x-slot>
+                                <x-slot name="end_date">${end_date}</x-slot>
+                                // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                 <x-slot name="event_id">${event.id}</x-slot> 
                             </x-cards.bookmark>
                         </div>
@@ -147,7 +148,9 @@
 
                     let eventTagsHtml = '';
                     event.tags.forEach(tag => {
-                        eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                        // eventTagsHtml +=
+                        //     `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
+                        eventTagsHtml += `<strong class="rounded border dark:border-indigo-900 dark:bg-indigo-900 border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
                     });
 
                     html += `
@@ -157,7 +160,9 @@
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
-                                <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
+                                <x-slot name="start_date">${start_date}</x-slot>
+                                <x-slot name="end_date">${end_date}</x-slot>
+                                // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                 <x-slot name="event_id">${event.id}</x-slot> 
                             </x-cards.bookmark>
                         </div>
@@ -173,7 +178,6 @@
             }
         });
     });
-
 </script>
 
 
@@ -186,7 +190,7 @@
             }
         });
 
-         // Fetch bookmarked events
+        // Fetch bookmarked events
         function fetchBookmarkedEvents() {
             $.ajax({
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
@@ -214,7 +218,7 @@
             } else {
                 $(this).find('svg').attr('fill', 'red');
             }
-            
+
             // Submit the form after changing the color
             $.post({
                 url: '/api/events/bookmarks',
@@ -223,6 +227,7 @@
                     user_id: $(this).siblings('input[name="user_id"]').val()
                 },
                 success: function(response) {
+
                     console.log(response);
                 },
                 error: function(xhr) {
