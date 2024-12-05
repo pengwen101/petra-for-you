@@ -27,6 +27,7 @@ class EventSeeder extends Seeder
             DB::table("events")->insert([
                 'title' => $faker->sentence(3),
                 'venue' => $faker->sentence(1),
+                'max_register_date' => $faker->date(),
                 'start_date' => $faker->date(),
                 'end_date' => $faker->date(),
                 'start_time' => $faker->time(),

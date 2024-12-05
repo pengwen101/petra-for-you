@@ -63,7 +63,8 @@
     $(document).ready(function() {
         let user_id = {{ Auth::user()->id }};
         $.ajax({
-            url: `/api/events/bookings/${user_id}`,
+            // url: `/api/events/bookings/${user_id}`,
+            url: `/api/events`,
             type: "GET",
             success: function(response) {
                 if (response) {
@@ -84,7 +85,7 @@
                     } else {
                         response.forEach((event, index) => {
                             let truncatedTitle = event.title.substring(0, 40);
-                            let truncatedDescription = event.description.substring(0, 50);
+                            let truncatedDescription = event.description.substring(0, 70);
                             let start_date = new Date(event.start_date);
                             let end_date = new Date(event.end_date);
                             start_date =
@@ -143,8 +144,7 @@
                             </div>
                         `;
                         $('.bookmark-alert').html(html);
-                    } 
-                    else {
+                    } else {
                         response.forEach((event, index) => {
                             let truncatedDescription = event.description.substring(0, 100);
                             let start_date = new Date(event.start_date);
@@ -153,19 +153,28 @@
                                 `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                             end_date =
                                 `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+                            let eventTagsHtml = '';
+                            event.tags.forEach(tag => {
+                                eventTagsHtml +=
+                                    `<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
+                            });
                             html += `
                                 <div class=' flex-none w-full shadow rounded-lg '>
                                     <x-cards.bookmark>
                                         <x-slot name="title">${event.title}</x-slot>
                                         <x-slot name="description">${truncatedDescription} ...</x-slot>
+                                        <x-slot name="tags">${eventTagsHtml}</x-slot>
                                         <x-slot name="random">${event.id}</x-slot> 
-                                        <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
+                                        <x-slot name="start_date">${start_date}</x-slot>
+                                        <x-slot name="end_date">${end_date}</x-slot>
+                                
+                                        // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                         <x-slot name="event_id">${event.id}</x-slot>
                                     </x-cards.bookmark>
                                 </div>
                             `;
                         });
-                            
+
                         $('#user_bookmark_list').html(html);
                     }
                 }
@@ -189,8 +198,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-         // Fetch bookmarked events
-         function fetchBookmarkedEvents() {
+        // Fetch bookmarked events
+        function fetchBookmarkedEvents() {
             $.ajax({
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
                 type: 'GET',
@@ -210,7 +219,7 @@
             });
         }
         fetchBookmarkedEvents();
-        
+
         $(document).on('click', '.bookmark', function(e) {
             e.preventDefault();
             if ($(this).find('svg').attr('fill') == 'red') {

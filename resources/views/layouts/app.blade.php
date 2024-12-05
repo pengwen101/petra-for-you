@@ -14,13 +14,19 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
         {{-- jquery --}}
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        
+        <style>
+            nav{
+                transition: all 0.64s ease;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased ">
-        <div class="min-h-screen bg-gradient-to-r from-white to-slate-500 dark:bg-gradient-to-r dark:from-slate-900 dark:to-indigo-900">
+        <div class="min-h-screen bg-light-cream dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-900">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -38,4 +44,20 @@
             </main>
         </div>
     </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let lastScrollTop = 0;
+            $(window).on('scroll', function() {
+                let currentScrollTop = $(this).scrollTop(); 
+                if (currentScrollTop > lastScrollTop) {
+                    $('nav').attr("style", "transform:translateY(-100%)")
+                } else {
+                    $('nav').attr("style", "translateY(0)");
+                }
+                lastScrollTop = currentScrollTop; 
+            });
+        });
+    </script>
 </html>

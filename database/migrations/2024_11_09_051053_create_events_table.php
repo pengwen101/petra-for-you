@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', length: 64);
             $table->string('venue', length: 64);
+            $table->date('max_register_date');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->time('start_time');

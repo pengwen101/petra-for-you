@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     public function tags():BelongsToMany{
-        return $this->belongsToMany(Tag::class, 'user_tag_mappings', 'user_id', 'tag_id')->withPivot('avg_score');
+        return $this->belongsToMany(Tag::class, 'user_tag_mappings', 'user_id', 'tag_id')->withPivot('score');
     }
 
     public function userTagMappings():HasMany{

@@ -16,16 +16,11 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/events', function () {
         return view('user.events');
     })->name('events');
-    Route::get('/history', function () {
-        return view('user.history');
-    })->name('history');
-
+    Route::get('/history', [HistoryController::class, 'index'])->name('history');
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
@@ -63,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
