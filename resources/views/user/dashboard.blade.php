@@ -2,39 +2,41 @@
     use Carbon\Carbon;
 @endphp
 <x-app-layout>
-    <div class = "mx-auto px-20 py-10 h-screen w-full flex justify-center items-center">
-        <div class = "flex justify-around w-full">
-            <div class = "flex flex-col gap-3">
+    <div class = "mt-[-64px] mx-auto px-20 py-10 h-screen w-full flex justify-center items-center">
+        <div class = "flex sm:flex-row flex-col gap-10 justify-center items-center w-full h-full">
+            <div class = "flex flex-col gap-3 justify-center h-full w-[30%]">
                 <div class = "text-3xl text-dark-blue">Lorem ipsum dolor sit amet.!</div>
-                <div class = "cursor-pointer px-4 py-2 w-fit rounded-full bg-summer text-white">Explore events, for you.</div>
+                <div class = "cursor-pointer px-4 py-2 w-fit  bg-summer text-white">Explore events, for you.</div>
             </div>
 
-            <div class = "flex flex-col gap-3">
-                <div class = "text-3xl text-dark-blue">Events this month</div>
-                <div class="w-75 swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        @foreach ($eventsThisMonth as $event)
-                            <div class="swiper-slide">
-                                <div class="h-[200px] w-[100px]">
-                                    @php
-                                        $start_date = Carbon::parse($event->start_date);
-                                        $year = $start_date->format('Y');
-                                        $month = $start_date->format('M');
-                                        $day = $start_date->format('d');
-                                    @endphp
-                                    <!-- {{$year}} {{$month}} {{$day}} -->
-                                    <x-history-card
-                                    :title="$event->title"
-                                    :description="$event->description"
-                                    :year="$year"
-                                    :month="$month"
-                                    :day="$day"
-                                    ></x-history-card>
+            <div class = "flex flex-col gap-5 bg-light-yellow p-10 h-fit items-center justify-center max-w-[70%]">
+                <div class = "text-xl font-bold text-midnight">Events this month</div>
+                <div class = "max-w-[500px]">
+                    <div class="w-75 swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            @foreach ($eventsThisMonth as $event)
+                                <div class="swiper-slide">
+                                    <div class="h-max rounded-lg bg-gray-200 dark:bg-gray-700">
+                                        @php
+                                            $start_date = Carbon::parse($event->start_date);
+                                            $year = $start_date->format('Y');
+                                            $month = $start_date->format('M');
+                                            $day = $start_date->format('d');
+                                        @endphp
+                                        <!-- {{$year}} {{$month}} {{$day}} -->
+                                        <x-history-card
+                                        :title="$event->title"
+                                        :description="$event->description"
+                                        :year="$year"
+                                        :month="$month"
+                                        :day="$day"
+                                        ></x-history-card>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+        
                     </div>
-    
                 </div>
             </div>
             
@@ -49,7 +51,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
 
-            <h2 class = "text-xl font-bold dark:text-gray-200">Suggested Events</h2>
+            <h2 class = "text-xl font-bold dark:text-gray-200">You might like these...</h2>
 
             <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto dark:text-gray-200 ">
             </div>
