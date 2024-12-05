@@ -85,7 +85,7 @@
                     } else {
                         response.forEach((event, index) => {
                             let truncatedTitle = event.title.substring(0, 40);
-                            let truncatedDescription = event.description.substring(0, 50);
+                            let truncatedDescription = event.description.substring(0, 70);
                             let start_date = new Date(event.start_date);
                             let end_date = new Date(event.end_date);
                             start_date =
