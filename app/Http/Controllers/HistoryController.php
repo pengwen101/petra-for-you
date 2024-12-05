@@ -12,6 +12,6 @@ class HistoryController extends Controller
     {
         $userID = Auth::id();
         $bookings = User::find($userID)->bookings->where('status', 'finished')->sortBy('event_id');
-        return view('history.index', compact('bookings'));
+        return view('user.history', compact('bookings'));
     }
 }

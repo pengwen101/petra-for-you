@@ -45,7 +45,7 @@ class Event extends Model
     }
 
     public function tags():BelongsToMany{
-        return $this->belongsToMany(Tag::class, 'event_tag_mappings', 'event_id', 'tag_id')->withPivot('notes');
+        return $this->belongsToMany(Tag::class, 'event_tag_mappings', 'event_id', 'tag_id')->withPivot('score');
     }
 
     public function eventTagMappings():HasMany{

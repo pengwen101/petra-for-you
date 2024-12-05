@@ -26,7 +26,7 @@ class EventTagMappingSeeder extends Seeder
                 DB::table("event_tag_mappings")->insert([
                     'event_id' => $i,
                     'tag_id' => rand(1, $tag_id_count),
-                    'notes' => $faker->words(3, true),
+                    'score' => rand(1,5),
                 ]);
             }
         }
