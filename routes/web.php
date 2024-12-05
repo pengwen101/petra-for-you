@@ -70,8 +70,10 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/detail/{event}', [EventController::class, 'show'])->name('detail');
 
-Route::get('/booking/{event}', [BookingController::class, 'show'])->name('booking');
-Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/booking/{event_id}', [BookingController::class, 'show'])->name('booking.create');
+    Route::post('/booking/{event}', [BookingController::class, 'store'])->name('booking.store');
+});
 
 
 require __DIR__.'/auth.php';

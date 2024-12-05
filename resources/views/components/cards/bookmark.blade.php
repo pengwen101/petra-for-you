@@ -14,14 +14,17 @@
         </div>
     </a>
     <div class="w-full flex">
-        <a href="/detail/{{ $event_id }}">
-            <button type="button" class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+        <a href="/detail/{{ $event_id }}" class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+            <button type="button" class="w-full text-gray-900 bg-white focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                 Detail
             </button>
         </a>
-        <button type="button" class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-            Booking
-        </button>
+        <a href="/booking/{{ $event_id }}" class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+            <button type="button"  class="w-full text-gray-900 bg-white focus:outline-none hover:bg-gray-200  font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                Booking
+            </button>
+        </a>
+
         <input type="hidden" name="event_id" disabled value="{{ $event_id }}">
         <input type="hidden" name="user_id" disabled value="{{ Auth::id() }}">
         <button type="button" id="" class="bookmark text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
