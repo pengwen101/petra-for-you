@@ -154,4 +154,70 @@ class EventController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function addEvent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'venue' => 'required',
+            'max_register_date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'is_shown' => 'required|boolean',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'organizer_id' => 'required|exists:organizers,id',
+            'event_category_id' => 'required|exists:event_categories,id',
+            'tag_id' => 'required|array',
+            'tag_id.*' => 'exists:tags,id'
+
+        ]);
+
+        try {
+            $event = Event::create($request->all());
+            // insert into event tag mapping
+            $event->tags()->attach($request->tags);
+
+            // insert into event category mapping
+            $event->eventCategories()->attach($request->event_category_id);
+
+            return response()->json(['message' => 'Event added']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateEvent (Request $request) {
+        $request->validate([
+            'id' => 'required|exists:events,id',
+            'name' => 'required',
+            'venue' => 'required',
+            'max_register_date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'is_shown' => 'required|boolean',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'organizer_id' => 'required|exists:organizers,id',
+            'event_category_id' => 'required|exists:event_categories,id',
+            'tag_id' => 'required|array',
+            'tag_id.*' => 'exists:tags,id'
+        ]);
+
+        try {
+            $event = Event::find($request->id);
+            $event->update($request->all());
+            // insert into event tag mapping
+            $event->tags()->sync($request->tags);
+
+            // insert into event category mapping
+            $event->eventCategories()->sync($request->event_category_id);
+
+            return response()->json(['message' => 'Event updated']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

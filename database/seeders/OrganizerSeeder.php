@@ -77,6 +77,8 @@ class OrganizerSeeder extends Seeder
                 'website_link' => $faker->url(),
                 'phone_number' => $faker->randomNumber(8, true),
                 'line_id' => $faker->word(),
+                'email' => strtolower(str_replace(' ', '_', $organizer['name'])) . '@gmail.com',
+                'password' => bcrypt('1234')
             ]);
         }
     }

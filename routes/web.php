@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Bookmark;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -58,6 +59,24 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::get('/organizer/login', [OrganizerController::class, 'showLoginForm'])->name('organizer.login');
+Route::post('organizer/login', [OrganizerController::class, 'login']);
+Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('organizer.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('organizer.dashboard');
+    })->name('dashboard');
+    Route::get('/events', function () {
+        return view('organizer.events');
+    })->name('events');
+    Route::get('/bookings', function () {
+        return view('organizer.bookings');
+    })->name('bookings');
+});
+
+
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
