@@ -16,6 +16,7 @@ class EventController extends Controller
     {
         return view('detail.detailEvent', compact('event'));
     }
+
     public function getEvents(Request $request)
     {
         if ($request->has('id') && $request->get('id') != null) {

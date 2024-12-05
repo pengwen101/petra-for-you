@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Pivot
 {
-    protected $table = 'bookings'; 
+    protected $table = 'bookings';
 
     protected $fillable = [
         'user_id',

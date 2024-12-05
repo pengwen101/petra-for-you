@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HistoryController;
@@ -68,6 +69,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/detail/{event}', [EventController::class, 'show'])->name('detail');
+
+Route::get('/booking/{event}', [BookingController::class, 'show'])->name('booking');
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+
 
 require __DIR__.'/auth.php';
 
