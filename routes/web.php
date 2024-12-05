@@ -10,6 +10,7 @@ use App\Models\Bookmark;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -21,6 +22,7 @@ Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(func
         return view('user.events');
     })->name('events');
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
+    Route::get('/history/review/{id}', [ReviewController::class, 'index'])->name('review');
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {

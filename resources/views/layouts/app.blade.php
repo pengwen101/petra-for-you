@@ -25,7 +25,7 @@
             }
         </style>
     </head>
-    <body class="bg-light-cream font-sans antialiased ">
+    <body class="bg-light-cream font-sans antialiased overflow-x-hidden">
         <div class="min-h-screen bg-light-cream dark:bg-gradient-to-r dark:from-blue-900 dark:to-blue-900">
             @include('layouts.navigation')
 
