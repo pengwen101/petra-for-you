@@ -15,9 +15,9 @@
     </div>
 
     <div class="flex flex-1 flex-col justify-between">
-        
+
         <div class="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
-            
+
             <a href="#">
                 <h3 class="font-bold uppercase text-gray-900 dark:text-white">
                     {{ $title }}

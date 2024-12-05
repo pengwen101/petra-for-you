@@ -35,12 +35,12 @@
                                 </div>
                             @endforeach
                         </div>
-        
+
                     </div>
                 </div>
             </div>
-            
-          
+
+
         </div>
 
 
@@ -49,6 +49,11 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+
+            <h2 class = "text-xl font-bold">Suggested Events</h2>
+
+            <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto ">
 
 
             <h2 class = "text-xl font-bold dark:text-gray-200">You might like these...</h2>
@@ -114,11 +119,14 @@
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
-                                <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="random">${event.id}</x-slot>
+                                <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
+                                <x-slot name="event_id">${event.id}</x-slot>
+                                <x-slot name="random">${event.id}</x-slot>
                                 <x-slot name="start_date">${start_date}</x-slot>
                                 <x-slot name="end_date">${end_date}</x-slot>
                                 // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
-                                <x-slot name="event_id">${event.id}</x-slot> 
+                                <x-slot name="event_id">${event.id}</x-slot>
                             </x-cards.bookmark>
                         </div>
                     `;
@@ -161,11 +169,11 @@
                                 <x-slot name="title">${event.title}</x-slot>
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
-                                <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="random">${event.id}</x-slot>
                                 <x-slot name="start_date">${start_date}</x-slot>
                                 <x-slot name="end_date">${end_date}</x-slot>
                                 // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
-                                <x-slot name="event_id">${event.id}</x-slot> 
+                                <x-slot name="event_id">${event.id}</x-slot>
                             </x-cards.bookmark>
                         </div>
                     `;
