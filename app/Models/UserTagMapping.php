@@ -13,8 +13,7 @@ class UserTagMapping extends Pivot
     protected $fillable = [
         'user_id',
         'tag_id',
-        'avg_score',
-        'count',
+        'score',
     ];
 
     public function user():BelongsTo{

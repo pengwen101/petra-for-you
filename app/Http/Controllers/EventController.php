@@ -8,6 +8,7 @@ use App\Models\Bookmark;
 use Illuminate\Http\Request;
 use App\Models\UserTagMapping;
 use App\Models\EventTagMapping;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 
 class EventController extends Controller
@@ -88,6 +89,39 @@ class EventController extends Controller
         return response()->json($events->get());
     }
 
+    public function unsuggest(Collection $eventTagMappings, int $user_id,  int $score){
+        foreach($eventTagMappings as $eventTagMapping){
+            $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
+            if(isset($userTagMapping)){
+                if($userTagMapping->score-$score <= 0){
+                    $userTagMapping->delete();
+                }else{
+                    $userTagMapping->update([
+                        'score' => $userTagMapping->score -$score,
+                    ]);
+                }
+            }
+        }
+    }
+
+
+    public function suggest(Collection $eventTagMappings, int $user_id,  int $score){
+        foreach($eventTagMappings as $eventTagMapping){
+            $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
+            if(!$userTagMapping){
+                UserTagMapping::create([
+                    'user_id' => $user_id,
+                    'tag_id' => $eventTagMapping->tag_id,
+                    'score' => $score,
+                ]);
+            }else{
+                $userTagMapping->update([
+                    'score' => $userTagMapping->score + $score,
+                ]);
+            }
+        }
+    }
+
     public function addBookmark(Request $request)
     {
         $request->validate([
@@ -103,20 +137,7 @@ class EventController extends Controller
             $eventTagMappings = EventTagMapping::where('event_id', $request->event_id)->get();
 
             if ($bookmark) {
-                foreach($eventTagMappings as $eventTagMapping){
-                    $userTagMapping = UserTagMapping::where('user_id', $request->user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
-                    if(isset($userTagMapping)){
-                        if($userTagMapping->count-1 == 0){
-                            $userTagMapping->delete();
-                        }else{
-                            $userTagMapping->update([
-                                'avg_score' => ($userTagMapping->avg_score * ($userTagMapping->count ) ) - 2.75,
-                                'count' => $userTagMapping->count - 1,
-                            ]);
-                        }
-                    }
-                }
-                
+                $this->unsuggest($eventTagMappings, $request->user_id, 1);
                 $bookmark->delete();
 
                 return response()->json(['message' => 'Bookmark removed']);
@@ -124,23 +145,7 @@ class EventController extends Controller
             else {
 
                 $bookmark = Bookmark::create($request->all());
-
-                foreach($eventTagMappings as $eventTagMapping){
-                    $userTagMapping = UserTagMapping::where('user_id', $request->user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
-                    if(!$userTagMapping){
-                        UserTagMapping::create([
-                            'user_id' => $request->user_id,
-                            'tag_id' => $eventTagMapping->tag_id,
-                            'avg_score' => 2.75,
-                            'count' => 1,
-                        ]);
-                    }else{
-                        $userTagMapping->update([
-                            'avg_score' => ($userTagMapping->avg_score + 2.75)/($userTagMapping->count + 1 ),
-                            'count' => $userTagMapping->count + 1,
-                        ]);
-                    }
-                }
+                $this->suggest($eventTagMappings, $request->user_id, 1);
 
                 return response()->json(['message' => 'Bookmark added']);
             }

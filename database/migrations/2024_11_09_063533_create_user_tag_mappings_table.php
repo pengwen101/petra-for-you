@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');    
-            $table->double("avg_score");
-            $table->integer('count');
+            $table->integer("score");
             $table->timestamps();
         });
     }

@@ -15,9 +15,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/events', function () {
         return view('user.events');
     })->name('events');

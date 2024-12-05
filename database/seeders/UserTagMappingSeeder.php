@@ -26,8 +26,7 @@ class UserTagMappingSeeder extends Seeder
                 DB::table("user_tag_mappings")->insert([
                     'user_id' => rand(1, $user_id_count),
                     'tag_id' => rand(1, $tag_id_count),
-                    'avg_score' => rand(1, 5),
-                    'count' => rand(1,5),
+                    'score' => rand(1, 5),
                 ]);
             }
         }

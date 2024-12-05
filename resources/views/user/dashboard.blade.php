@@ -1,9 +1,49 @@
+@php
+    use Carbon\Carbon;
+@endphp
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Welcome') }}
-        </h2>
-    </x-slot>
+    <div class = "mx-auto px-20 py-10 h-screen w-full flex justify-center items-center">
+        <div class = "flex justify-around w-full">
+            <div class = "flex flex-col gap-3">
+                <div class = "text-3xl text-dark-blue">Lorem ipsum dolor sit amet.!</div>
+                <div class = "cursor-pointer px-4 py-2 w-fit rounded-full bg-summer text-white">Explore events, for you.</div>
+            </div>
+
+            <div class = "flex flex-col gap-3">
+                <div class = "text-3xl text-dark-blue">Events this month</div>
+                <div class="w-75 swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($eventsThisMonth as $event)
+                            <div class="swiper-slide">
+                                <div class="h-[200px] w-[100px]">
+                                    @php
+                                        $start_date = Carbon::parse($event->start_date);
+                                        $year = $start_date->format('Y');
+                                        $month = $start_date->format('M');
+                                        $day = $start_date->format('d');
+                                    @endphp
+                                    <!-- {{$year}} {{$month}} {{$day}} -->
+                                    <x-history-card
+                                    :title="$event->title"
+                                    :description="$event->description"
+                                    :year="$year"
+                                    :month="$month"
+                                    :day="$day"
+                                    ></x-history-card>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+    
+                </div>
+            </div>
+            
+          
+        </div>
+
+
+
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +66,28 @@
 </x-app-layout>
 
 <script>
-    $('document').ready(function() {
+    $(document).ready(function() {
+
+        var swiper = new Swiper(".mySwiper", {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                loop: true,
+                autoplay: {
+                    delay: 1000,
+                },
+                coverflowEffect: {
+                    rotate: 10,
+                    stretch: 10,
+                    depth: 100,
+                    modifier: 2.5,
+                    slideShadows: true,
+                },
+
+
+            });
+
         $.ajax({
             url: '/api/events/suggested/{{Auth::id()}}',
             type: 'GET',
@@ -68,6 +129,7 @@
                 console.log('complete');
             }
         });
+
         $.ajax({
             url: '/api/events',
             type: 'GET',
@@ -161,7 +223,6 @@
                     user_id: $(this).siblings('input[name="user_id"]').val()
                 },
                 success: function(response) {
-                   
                     console.log(response);
                 },
                 error: function(xhr) {
@@ -171,26 +232,6 @@
                     console.log('completed');
                 }
             });
-
-            //Update user tag mapping
-            // $.ajax({
-            //     url: '/api/events/suggested/update',
-            //     type: 'PUT',
-            //     data: {
-            //         event_id: $(this).siblings('input[name="event_id"]').val(),
-            //         user_id: $(this).siblings('input[name="user_id"]').val(),
-            //         new_score: 2.75,
-            //     },
-            //     success: function(response) {
-            //         console.log("INI RESPONSE UPDATE TAG", response);
-            //     },
-            //     error: function(xhr) {
-            //         console.log(xhr);
-            //     },
-            //     complete: function() {
-            //         console.log('completed');
-            //     }
-            // });
         });
     });
 </script>
