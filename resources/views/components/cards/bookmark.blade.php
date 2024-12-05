@@ -33,11 +33,11 @@
         </div>
 
         <div class="sm:flex sm:items-end sm:justify-end">
-            <a href="#"
+            <a href="/detail/{{$event_id}}"
                 class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 See Detail
             </a>
-            <a href="#"
+            <a href="/booking/{{$event_id}}"
                 class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 Booking
             </a>
