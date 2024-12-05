@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10 dark:bg-gray-800">
+    <div class="max-w-3xl mx-auto bg-white shadow-md p-6 my-20 dark:bg-gray-800">
         <!-- Event Title -->
         <div class="text-center">
             <h1 class="text-4xl font-bold text-gray-800 dark:text-white">{{ $event->title }}</h1>

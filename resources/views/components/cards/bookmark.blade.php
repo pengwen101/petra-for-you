@@ -27,6 +27,8 @@
             <p class="my-2 line-clamp-3 text-sm/relaxed text-gray-700 dark:text-slate-400">
                 {{ $description }}
             </p>
+
+            <div class = "font-bold text-xs mb-2">Max register date: {{$max_register_date}}</div>
             <div class = "flex flex-wrap w-full gap-2">
                 {!! $tags !!}
             </div>
@@ -34,18 +36,18 @@
 
         <div class="sm:flex sm:items-end sm:justify-end">
             <a href="/detail/{{$event_id}}"
-                class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
+                class="block bg-summer px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 See Detail
             </a>
-            <a href="/booking/{{$event_id}}"
+            {{-- <a href="/booking/{{$event_id}}"
                 class="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 Booking
-            </a>
+            </a> --}}
             <input type="hidden" name="event_id" disabled value="{{ $event_id }}">
             <input type="hidden" name="user_id" disabled value="{{ Auth::id() }}">
                 
             <a href="#"
-                class="bookmark block bg-yellow-300 px-3 py-2 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
+                class="bookmark block bg-summer px-3 py-2 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 <svg class="h-6 w-6 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />

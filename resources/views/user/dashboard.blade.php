@@ -95,18 +95,23 @@
                 let html = '';
                 console.log(response)
                 response.forEach((event, index) => {
-                    let truncatedDescription = event.description.substring(0, 100);
+                    let truncatedDescription = event.description.substring(0, 60);
                     let start_date = new Date(event.start_date);
                     let end_date = new Date(event.end_date);
+                    let max_register_date = new Date(event.max_register_date);
                     start_date =
                         `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                     end_date =
                         `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
 
+                    max_register_date =
+                        `${max_register_date.getDate()}/${max_register_date.getMonth()+1}/${max_register_date.getFullYear()}`;
+
+
                     let eventTagsHtml = '';
                     event.tags.forEach(tag => {
                         // eventTagsHtml += `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
-                        eventTagsHtml += `<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
+                        eventTagsHtml += `<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-dark-blue px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
                     });
                     html += `
                         <div class=' flex-none w-full sm:w-[49%] shadow rounded-lg '>
@@ -115,6 +120,7 @@
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="max_register_date">${max_register_date}</x-slot>
                                 <x-slot name="start_date">${start_date}</x-slot>
                                 <x-slot name="end_date">${end_date}</x-slot>
                                 // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
@@ -143,16 +149,21 @@
                     let truncatedDescription = event.description.substring(0, 60);
                     let start_date = new Date(event.start_date);
                     let end_date = new Date(event.end_date);
+                    let max_register_date = new Date(event.max_register_date);
                     start_date =
                         `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                     end_date =
                         `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
 
+                    max_register_date =
+                        `${max_register_date.getDate()}/${max_register_date.getMonth()+1}/${max_register_date.getFullYear()}`;
+
+
                     let eventTagsHtml = '';
                     event.tags.forEach(tag => {
                         // eventTagsHtml +=
                         //     `<div class="px-2 py-1 rounded-full bg-green-100 text-xs text-green-500">${tag.name}</div>`;
-                        eventTagsHtml += `<strong class="rounded border dark:border-indigo-900 dark:bg-indigo-900 border-indigo-500 bg-indigo-500 px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
+                        eventTagsHtml += `<strong class="rounded border dark:border-indigo-900 dark:bg-indigo-900 border-indigo-500 bg-dark-blue px-3 py-1.5 text-[10px] font-medium text-white">${tag.name}</strong>`;
                     });
 
                     html += `
@@ -162,6 +173,7 @@
                                 <x-slot name="description">${truncatedDescription} ...</x-slot>
                                 <x-slot name="tags">${eventTagsHtml}</x-slot>
                                 <x-slot name="random">${event.id}</x-slot> 
+                                <x-slot name="max_register_date">${max_register_date}</x-slot>
                                 <x-slot name="start_date">${start_date}</x-slot>
                                 <x-slot name="end_date">${end_date}</x-slot>
                                 // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
