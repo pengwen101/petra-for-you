@@ -1,16 +1,31 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>myAdmin</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    @yield('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    @include('myAdmin.nav')
-    @yield('contents')
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+<body class="bg-gray-100 text-gray-800">
+    <div class="min-h-screen flex flex-col">
+        @include('myAdmin.nav')
+
+        <main class="flex-grow">
+            <div class="container mx-auto px-4 py-6">
+                @yield('contents')
+            </div>
+        </main>
+        <footer class="bg-gray-800 text-white py-4 mt-6">
+            <div class="container mx-auto text-center text-sm">
+                &copy; {{ date('Y') }} myAdmin. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
     <script type="module">
         @if (session('success'))
             Swal.fire({

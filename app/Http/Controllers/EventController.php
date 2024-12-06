@@ -35,8 +35,8 @@ class EventController extends Controller
 
         // Fetch all events with the collected event IDs and load their tags and eventCategories
         $events = Event::with('tags', 'eventCategories')
-                        ->whereIn('id', $eventIds)
-                        ->get();
+            ->whereIn('id', $eventIds)
+            ->get();
 
         return response()->json($events);
     }
@@ -53,8 +53,8 @@ class EventController extends Controller
 
         // Fetch all events with the collected event IDs and load their tags and eventCategories
         $events = Event::with('tags', 'eventCategories')
-                    ->whereIn('id', $eventIds)
-                    ->get();
+            ->whereIn('id', $eventIds)
+            ->get();
 
         return response()->json($events);
     }
@@ -94,15 +94,16 @@ class EventController extends Controller
         return response()->json($events->get());
     }
 
-    public function unsuggest(Collection $eventTagMappings, int $user_id,  int $score){
-        foreach($eventTagMappings as $eventTagMapping){
+    public function unsuggest(Collection $eventTagMappings, int $user_id,  int $score)
+    {
+        foreach ($eventTagMappings as $eventTagMapping) {
             $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
-            if(isset($userTagMapping)){
-                if($userTagMapping->score-$score <= 0){
+            if (isset($userTagMapping)) {
+                if ($userTagMapping->score - $score <= 0) {
                     $userTagMapping->delete();
-                }else{
+                } else {
                     $userTagMapping->update([
-                        'score' => $userTagMapping->score -$score,
+                        'score' => $userTagMapping->score - $score,
                     ]);
                 }
             }
@@ -110,16 +111,17 @@ class EventController extends Controller
     }
 
 
-    public function suggest(Collection $eventTagMappings, int $user_id,  int $score){
-        foreach($eventTagMappings as $eventTagMapping){
+    public function suggest(Collection $eventTagMappings, int $user_id,  int $score)
+    {
+        foreach ($eventTagMappings as $eventTagMapping) {
             $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
-            if(!$userTagMapping){
+            if (!$userTagMapping) {
                 UserTagMapping::create([
                     'user_id' => $user_id,
                     'tag_id' => $eventTagMapping->tag_id,
                     'score' => $score,
                 ]);
-            }else{
+            } else {
                 $userTagMapping->update([
                     'score' => $userTagMapping->score + $score,
                 ]);
@@ -146,54 +148,86 @@ class EventController extends Controller
                 $bookmark->delete();
 
                 return response()->json(['message' => 'Bookmark removed']);
-            }
-            else {
+            } else {
 
                 $bookmark = Bookmark::create($request->all());
                 $this->suggest($eventTagMappings, $request->user_id, 1);
 
                 return response()->json(['message' => 'Bookmark added']);
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     public function addEvent(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'venue' => 'required',
-            'max_register_date' => 'required|date',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'is_shown' => 'required|boolean',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'organizer_id' => 'required|exists:organizers,id',
-            'event_category_id' => 'required|exists:event_categories,id',
-            'tag_id' => 'required|array',
-            'tag_id.*' => 'exists:tags,id'
-
-        ]);
 
         try {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'venue' => 'required|string|max:255',
+                'max_register_date' => 'required|date',
+                'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:max_register_date',
+                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_date',
+                'description' => 'required|string',
+                'price' => 'required|numeric',
+                'organizer_id' => 'required|exists:organizers,id',
+                'event_category_id.*' => 'required|exists:event_categories,id',
+                'event_category_id' => 'required|array',
+                'tag_id' => 'required|array',
+                'tag_id.*' => 'exists:tags,id'
+            ]);
+            // split start_datetime and end_datetime into date and time
+            $request->merge([
+                'start_date' => date('Y-m-d', strtotime($request->start_datetime)),
+                'start_time' => date('H:i:s', strtotime($request->start_datetime)),
+                'end_date' => date('Y-m-d', strtotime($request->end_datetime)),
+                'end_time' => date('H:i:s', strtotime($request->end_datetime)),
+            ]);
+
             $event = Event::create($request->all());
             // insert into event tag mapping
-            $event->tags()->attach($request->tags);
+            $event->tags()->attach($request->tag_id);
 
             // insert into event category mapping
             $event->eventCategories()->attach($request->event_category_id);
 
-            return response()->json(['message' => 'Event added']);
+            return redirect()->route('organizer.events')->with('success', 'Event added');
+        } 
+        catch (\Illuminate\Validation\ValidationException $e) {
+            // Debug validation errors
+            dd($e->errors()); 
         }
         catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->route('organizer.events')->with('error', $e->getMessage());
         }
     }
 
-    public function updateEvent (Request $request) {
+    public function toggleEvent(Event $event)
+    {
+        $event->is_shown = !$event->is_shown;
+        $event->save();
+        return redirect()->route('organizer.events');
+
+    }
+
+    public function deleteEvent(Request $request){
+        $request->validate([
+            'id' => 'required|exists:events,id'
+        ]);
+
+        try {
+            $event = Event::find($request->id);
+            $event->delete();
+            return redirect()->route('organizer.events')->with('success', 'Event deleted');
+        } catch (\Exception $e) {
+            return redirect()->route('organizer.events')->with('error', $e->getMessage());
+        }
+    }
+
+    public function updateEvent(Request $request)
+    {
         $request->validate([
             'id' => 'required|exists:events,id',
             'name' => 'required',
@@ -220,8 +254,7 @@ class EventController extends Controller
             $event->eventCategories()->sync($request->event_category_id);
 
             return response()->json(['message' => 'Event updated']);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

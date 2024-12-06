@@ -1,5 +1,4 @@
 <x-app-layout>
-   
     <div class="max-w-md mx-auto my-20 bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
         @if(session('success'))
             <div class="mb-4 text-green-700 bg-green-100 p-3 rounded-lg">
@@ -10,7 +9,7 @@
         <form id = "booking-form" action="{{ route('booking.store', $event->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <h3 class = "text-lg mb-6 font-bold border-b-2">Event Information</h3>
+            <h3 class = "text-lg mb-6 font-bold border-b-2 dark:text-white">Event Information</h3>
             <!-- Title -->
             <div class="mb-6 grid grid-cols-8">
                 <div class="col-span-2 text-sm font-medium text-black dark:text-white">Title</div>
@@ -27,7 +26,7 @@
                 </div>
             </div>
 
-            
+
 
             <!-- Start Date and Start Time -->
              <div class="mb-6 grid grid-cols-8">
@@ -48,12 +47,12 @@
 
 
 
-            <h3 class = "text-lg mb-6 font-bold border-b-2">Contact Information</h3>
+            <h3 class = "text-lg mb-6 font-bold border-b-2 dark:text-white">Contact Information</h3>
             <!-- Name -->
             <div class="mb-6">
                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Name <span class = "text-red-500">*</span></label>
                 <input type="text" id="name" name="name"
-                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->name}}'
                     disabled>
             </div>
@@ -62,7 +61,7 @@
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">Email <span class = "text-red-500">*</span></label>
                 <input type="text" id="email" name="email"
-                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->email}}'
                     disabled>
             </div>
@@ -71,7 +70,7 @@
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">Line ID <span class = "text-red-500">*</span></label>
                 <input type="text" id="line-id" name="line-id"
-                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->line_id}}'
                     >
                 @error('line_id')
@@ -79,13 +78,13 @@
                 @enderror
             </div>
 
-           
+
 
             <!-- No Telp -->
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">No Telp <span class = "text-red-500">*</span></label>
                 <input type="text" id="phone-number" name="phone-number"
-                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white"
+                    class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->phone_number}}'
                     >
                 @error('phone_number')
@@ -95,7 +94,7 @@
 
 
             @if($event->price > 0)
-                <h3 class = "text-lg mb-6 font-bold border-b-2">Proof of Payment</h3>
+                <h3 class = "text-lg mb-6 font-bold border-b-2 dark:text-white">Proof of Payment</h3>
                 <!-- Proof of Payment -->
                 <div class="mb-6">
                     <div class = "text-sm font-medium text-gray-700 dark:text-white">{{ sprintf("Rp %s", number_format($event->price, 2, ',', '.')) }}</div>
@@ -186,14 +185,14 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: 'Something went wrong!',
-                                
+
                                 });
                             }
                             console.error(error);
 
                         }
 
-                        
+
                     }
                 });
 

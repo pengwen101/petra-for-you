@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
+    public function logout(Request $request)
+    {
+        Auth::guard('organizer')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('organizer.login');
+    }
+    
     public function showLoginForm()
     {
         return view('organizer.login');

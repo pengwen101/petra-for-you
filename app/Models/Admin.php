@@ -16,11 +16,13 @@ class Admin extends Authenticatable
         'name',
         'password',
         'active',
+        'updated_at',
     ];
 
     protected $casts = [
         'active' => 'boolean',
         'is_root' => 'boolean',
+        'updated_at' => 'datetime',
     ];
 
     public function setPasswordAttribute($value)

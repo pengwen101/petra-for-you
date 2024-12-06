@@ -35,8 +35,7 @@ class EventSeeder extends Seeder
                 'description' => $faker->paragraph(),
                 'price' => $faker->numberBetween(20000, 200000),
                 'organizer_id' => $faker->numberBetween(1, $organizer_id_count),
-                'event_category_id' => $faker->numberBetween(1, $event_category_id_count),
-                'tag_id' => $faker->numberBetween(1, $tag_id_count),
+                // 'tag_id' => $faker->numberBetween(1, $tag_id_count),
             ]);
         }
     }

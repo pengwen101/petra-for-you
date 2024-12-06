@@ -22,6 +22,7 @@ class Event extends Model
         'price',
         'organizer_id',
         'is_shown',
+        'max_register_date'
     ];
 
     public function bookings():HasMany{
