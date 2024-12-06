@@ -5,6 +5,7 @@
     <div class="flex justify-between items-center mb-4">
         <span class="text-2xl font-bold">User</span>
     </div>
+
     <table class="min-w-full bg-white mt-4">
         <thead>
             <tr>
@@ -56,8 +57,7 @@
                 <input type="password" name="password" id="editPassword" class="w-full px-4 py-2 border rounded">
             </div>
             <div class="flex justify-end">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+                <button type="button" onclick="closeModal('editModal')"class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
             </div>
         </form>

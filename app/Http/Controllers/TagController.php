@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
-        public function index()
+    public function index()
     {
         $tags = Tag::all();
         return view('myAdmin.tag.tag', compact('tags'));
@@ -30,21 +31,33 @@ class TagController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|unique:tags,name,' . $id . '|max:255',
+        $tag = Tag::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
         ]);
 
-        Tag::query()->where('id', $id)->update([
+        if ($validator->fails()) {
+            return redirect()->route('admin.user')
+                ->with('error', $validator->errors()->first())
+                ->withInput();
+        }
+
+        $tagData = [
             'name' => $request->name,
-            'updated_at' => now()
-        ]);
+            'email' => $request->email,
+        ];
+
+        $tag->update($tagData);
 
         return redirect()->route('admin.tag');
     }
 
     public function remove($id)
     {
-        Tag::destroy($id);
+        $tag = Tag::findOrFail($id);
+        $tag->delete();
+
         return redirect()->route('admin.tag');
     }
 }
