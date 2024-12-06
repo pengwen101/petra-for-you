@@ -131,9 +131,9 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
 
     // Organizer
     Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer');
-    Route::post('/organizer', [OrganizerController::class, 'add'])->name('organizer.add');
-    Route::put('/organizer/{organizer}', [OrganizerController::class, 'update'])->name('organizer.update');
-    Route::delete('/organizer/{organizer}', [OrganizerController::class, 'remove'])->name('organizer.remove');
+    // Route::post('/organizer', [OrganizerController::class, 'add'])->name('organizer.add');
+    Route::put('/organizer/{organizer}', [OrganizerController::class, 'toggleActivate'])->name('organizer.toggleActivate');
+    // Route::delete('/organizer/{organizer}', [OrganizerController::class, 'remove'])->name('organizer.remove');
 
     // Admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
