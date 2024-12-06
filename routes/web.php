@@ -12,6 +12,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -78,8 +79,13 @@ Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('org
     })->name('bookings');
 });
 
-
-
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('admin/login', [AdminController::class, 'login']);
+Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('myAdmin.dashboard');
+    })->name('dashboard');
+});
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -91,5 +97,5 @@ Route::middleware('auth')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
