@@ -25,6 +25,8 @@ Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(func
     })->name('events');
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
     Route::get('/history/review/{id}', [ReviewController::class, 'index'])->name('review');
+    Route::get('/history/review/{id}/edit', [ReviewController::class, 'edit'])->name('editReview');
+    Route::post('/history/review/{id}/update', [ReviewController::class, 'update'])->name('updateReview');
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {

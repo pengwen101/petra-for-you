@@ -167,6 +167,7 @@
                                         <x-slot name="random">${event.id}</x-slot> 
                                         <x-slot name="start_date">${start_date}</x-slot>
                                         <x-slot name="end_date">${end_date}</x-slot>
+                                        <x-slot name="max_register_date">${max_register_date}</x-slot>
                                 
                                         // <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                         <x-slot name="event_id">${event.id}</x-slot>

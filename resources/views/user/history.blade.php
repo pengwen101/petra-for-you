@@ -21,21 +21,30 @@
                     @foreach ($bookinges as $booking)
                         <div class="h-max rounded-lg bg-gray dark:bg-gray-800">
                             @php
-                                $start_date = Carbon::parse($booking->event->start_date);
-                                $year = $start_date->format('Y');
-                                $month = $start_date->format('M');
-                                $day = $start_date->format('d');
+                                $truncatedDescription = strlen($booking->event->description) > 60 ? substr($booking->event->description, 0, 60) . '...' : $booking->event->description;
+                                                
+                                // Format dates using PHP
+                                $start_date = \Carbon\Carbon::parse($booking->event->start_date)->format('d/m/Y');
+                                $end_date = \Carbon\Carbon::parse($booking->event->end_date)->format('d/m/Y');
+                                $max_register_date = \Carbon\Carbon::parse($booking->event->max_register_date)->format('d/m/Y');
+                                
+                                // Generate event tags HTML
+                                $eventTagsHtml = '';
+                                foreach ($booking->event->tags as $tag) {
+                                    $eventTagsHtml .= '<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-dark-blue px-3 py-1.5 text-[10px] font-medium text-white">' . ($tag->name) . '</strong>';
+                                }
                             @endphp
-                            <!-- {{$year}} {{$month}} {{$day}} -->
-                            <x-history-card
-                            :title="$booking->event->title"
-                            :description="$booking->event->description"
-                            :stars="$booking->stars"
-                            :year="$year"
-                            :month="$month"
-                            :day="$day"
-                            :random="$booking->event->id"
-                            ></x-history-card>
+                            
+                            <x-cards.bookmark-review>
+                                <x-slot name="title">{{ $booking->event->title }}</x-slot>
+                                <x-slot name="description">{{ $truncatedDescription }}</x-slot>
+                                <x-slot name="tags">{!! $booking->eventTagsHtml !!}</x-slot>
+                                <x-slot name="random">{{ $booking->event->id }}</x-slot> 
+                                <x-slot name="max_register_date">{{ $max_register_date }}</x-slot>
+                                <x-slot name="start_date">{{ $start_date }}</x-slot>
+                                <x-slot name="end_date">{{ $end_date }}</x-slot>
+                                <x-slot name="event_id">{{ $booking->event->id }}</x-slot> 
+                            </x-cards.bookmark-review>
                         </div>
                     @endforeach
                 </div>
