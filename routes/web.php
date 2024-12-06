@@ -13,6 +13,7 @@ use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TagController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -90,6 +91,11 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
+    // tag and category
+    Route::get('/tag', [TagController::class, 'index'])->name('tag');
+    Route::post('/tag', [TagController::class, 'add'])->name('tag.add');
+    Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
+    Route::delete('/tag/{tag}', [TagController::class, 'remove'])->name('tag.remove');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
