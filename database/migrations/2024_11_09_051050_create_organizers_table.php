@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('line_id')->nullable();
             $table->integer('active')->default(1);
             $table->timestamps();
+            $table->string('email')->unique();
+            $table->string('password');
         });
     }
 
