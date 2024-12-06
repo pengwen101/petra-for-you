@@ -275,7 +275,11 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::all()->sortByDesc('created_at');
+        $events = Event::with([
+            'tags' => function ($query) {
+                $query->orderBy('event_tag_mappings.score', 'desc');
+            }
+        ])->get()->sortByDesc('created_at');
         return view('myAdmin.event.event', compact('events'));
     }
 
