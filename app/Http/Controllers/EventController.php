@@ -21,7 +21,7 @@ class EventController extends Controller
     public function getEvents(Request $request)
     {
         if ($request->has('id') && $request->get('id') != null) {
-            $events = Event::where('is_shown', 1)->find($request->get('id'));
+            $events = Event::where('is_shown', 1)->with('tags', 'eventCategories')->find($request->get('id'));
             return response()->json($events);
         }
         $events = Event::where('is_shown', 1)->with('tags', 'eventCategories')->get();
@@ -228,34 +228,48 @@ class EventController extends Controller
 
     public function updateEvent(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:events,id',
-            'name' => 'required',
-            'venue' => 'required',
-            'max_register_date' => 'required|date',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'is_shown' => 'required|boolean',
-            'description' => 'required',
-            'price' => 'required|numeric',
-            'organizer_id' => 'required|exists:organizers,id',
-            'event_category_id' => 'required|exists:event_categories,id',
-            'tag_id' => 'required|array',
-            'tag_id.*' => 'exists:tags,id'
-        ]);
-
+        
         try {
+            $request->validate([
+                'id' => 'required|exists:events,id',
+                'title' => 'required|string|max:255',
+                'venue' => 'required|string|max:255',
+                'max_register_date' => 'required|date',
+                'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:max_register_date',
+                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_date',
+                'description' => 'required|string',
+                'price' => 'required|numeric',
+                'organizer_id' => 'required|exists:organizers,id',
+                'event_category_id.*' => 'required|exists:event_categories,id',
+                'event_category_id' => 'required|array',
+                'tag_id' => 'required|array',
+                'tag_id.*' => 'exists:tags,id'
+            ]);
+            // split start_datetime and end_datetime into date and time
+            $request->merge([
+                'start_date' => date('Y-m-d', strtotime($request->start_datetime)),
+                'start_time' => date('H:i:s', strtotime($request->start_datetime)),
+                'end_date' => date('Y-m-d', strtotime($request->end_datetime)),
+                'end_time' => date('H:i:s', strtotime($request->end_datetime)),
+            ]);
+
+
             $event = Event::find($request->id);
             $event->update($request->all());
+
             // insert into event tag mapping
-            $event->tags()->sync($request->tags);
+            $event->tags()->sync($request->tag_id);
 
             // insert into event category mapping
             $event->eventCategories()->sync($request->event_category_id);
-
-            return response()->json(['message' => 'Event updated']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->route('organizer.events')->with('success', 'Event updated');
+        
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Debug validation errors
+            dd($e->errors()); 
+        }
+        catch (\Exception $e) {
+            return redirect()->route('organizer.events')->with('error', $e->getMessage());
         }
     }
 }
