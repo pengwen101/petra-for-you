@@ -65,18 +65,19 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/organizer/login', [OrganizerController::class, 'showLoginForm'])->name('organizer.login');
-Route::post('organizer/login', [OrganizerController::class, 'login']);
+Route::middleware('organizer.guest')->group(function () {
+    Route::get('/organizer/login', [OrganizerController::class, 'showLoginForm'])->name('organizer.login');
+    Route::post('organizer/login', [OrganizerController::class, 'login']);    
+});
 Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('organizer.')->group(function () {
     Route::get('/dashboard', function () {
         return view('organizer.dashboard');
     })->name('dashboard');
-    Route::get('/events', function () {
-        return view('organizer.events');
-    })->name('events');
+    Route::get('/events', [OrganizerController::class, 'showEvents'])->name('events');
     Route::get('/bookings', function () {
         return view('organizer.bookings');
     })->name('bookings');
+    Route::post('/events', [EventController::class, 'store'])->name('events.store');
 });
 
 Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');

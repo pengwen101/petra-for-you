@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use App\Models\EventCategory;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +26,18 @@ class OrganizerController extends Controller
 
         if (Auth::guard('organizer')->attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->route('organizer.events')->with('success', 'Login successful');
         }
         return back()->with('error', 'Invalid email or password');
+    }
+
+    public function showEvents () {
+        $id = Auth::guard('organizer')->user()->id;
+        $events = Event::where('organizer_id', $id)->get();
+        $categories = EventCategory::all();
+        $tags = Tag::all();
+        return view('organizer.events', compact('events', 'categories', 'tags'));
     }
 
     /**
