@@ -12,9 +12,8 @@ class OrganizerController extends Controller
         return view('organizer.login');
     }
 
-    public function login(Request $request)
-    {
-        // Validate the request
+    public function login(Request $request){
+         // Validate the request
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
@@ -24,7 +23,7 @@ class OrganizerController extends Controller
 
         if (Auth::guard('organizer')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('organizer.dashboard')->with('success', 'Login successful');
+            return redirect()->route('organizer.events')->with('success', 'Login successful');
         }
         return back()->with('error', 'Invalid email or password');
     }
