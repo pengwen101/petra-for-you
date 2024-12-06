@@ -10,12 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
-    public function show($event_id)
+    public function show(Event $event)
     {
-        $data = [
-            'event_id' => $event_id,
-        ];
-        return view('booking.booking', $data);
+        return view('booking.booking', ['event'=> $event]);
     }
 
     public function create()
