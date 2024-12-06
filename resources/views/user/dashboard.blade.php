@@ -6,7 +6,7 @@
         <div class = "flex sm:flex-row flex-col gap-10 justify-center items-center w-full h-full">
             <div class = "flex flex-col gap-3 justify-center h-full w-[30%]">
                 <div class = "text-3xl text-dark-blue">Lorem ipsum dolor sit amet.!</div>
-                <div class = "cursor-pointer px-4 py-2 w-fit  bg-summer text-white">Explore events, for you.</div>
+                <div class = "to-below cursor-pointer px-4 py-2 w-fit  bg-summer text-white">Explore events, for you.</div>
             </div>
 
             <!--Right Swiper-->
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="py-10">
+    <div class="py-10 min-h-screen" id = "events-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class = "text-xl font-bold dark:text-gray-200">You might like these...</h2>
 
@@ -101,6 +101,13 @@
 
 <script>
     $(document).ready(function() {
+
+        document.querySelector(".to-below").addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#events-section').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
 
         var swiper = new Swiper(".mySwiper", {
                 effect: "coverflow",

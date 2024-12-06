@@ -22,10 +22,11 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/events', function () {
         return view('user.events');
     })->name('events');
+    Route::get('/detail/{event}', [EventController::class, 'show'])->name('event.show');
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
     Route::get('/history/review/{id}', [ReviewController::class, 'index'])->name('review');
     Route::get('/history/review/{id}/edit', [ReviewController::class, 'edit'])->name('editReview');
@@ -142,9 +143,8 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::delete('/admin/{admin}', [AdminController::class, 'remove'])->name('admin.remove');
 });
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/detail/{event}', [EventController::class, 'show'])->name('event.show');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/booking/show/{event}', [BookingController::class, 'show'])->name('booking.show');
