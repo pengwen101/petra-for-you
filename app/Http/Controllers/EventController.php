@@ -168,7 +168,7 @@ class EventController extends Controller
                 'venue' => 'required|string|max:255',
                 'max_register_date' => 'required|date',
                 'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:max_register_date',
-                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_date',
+                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_datetime',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'organizer_id' => 'required|exists:organizers,id',
@@ -193,10 +193,12 @@ class EventController extends Controller
             $event->eventCategories()->attach($request->event_category_id);
 
             return redirect()->route('organizer.events')->with('success', 'Event added');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Debug validation errors
-            dd($e->errors());
-        } catch (\Exception $e) {
+        } 
+        // catch (\Illuminate\Validation\ValidationException $e) {
+        //     // Debug validation errors
+        //     dd($e->errors());
+        // } 
+        catch (\Exception $e) {
             return redirect()->route('organizer.events')->with('error', $e->getMessage());
         }
     }
@@ -226,7 +228,6 @@ class EventController extends Controller
 
     public function updateEvent(Request $request)
     {
-        
         try {
             $request->validate([
                 'id' => 'required|exists:events,id',
@@ -234,7 +235,7 @@ class EventController extends Controller
                 'venue' => 'required|string|max:255',
                 'max_register_date' => 'required|date',
                 'start_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:max_register_date',
-                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_date',
+                'end_datetime' => 'required|date_format:Y-m-d\TH:i|after_or_equal:start_datetime',
                 'description' => 'required|string',
                 'price' => 'required|numeric',
                 'organizer_id' => 'required|exists:organizers,id',
@@ -262,10 +263,11 @@ class EventController extends Controller
             $event->eventCategories()->sync($request->event_category_id);
             return redirect()->route('organizer.events')->with('success', 'Event updated');
         
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Debug validation errors
-            dd($e->errors()); 
-        }
+        } 
+        // catch (\Illuminate\Validation\ValidationException $e) {
+        //     // Debug validation errors
+        //     dd($e->errors()); 
+        // }
         catch (\Exception $e) {
             return redirect()->route('organizer.events')->with('error', $e->getMessage());
         }
