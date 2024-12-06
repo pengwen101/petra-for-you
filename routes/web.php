@@ -13,6 +13,7 @@ use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TagController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -69,7 +70,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('organizer.guest')->group(function () {
     Route::get('/organizer/login', [OrganizerController::class, 'showLoginForm'])->name('organizer.login');
-    Route::post('organizer/login', [OrganizerController::class, 'login']);    
+    Route::post('organizer/login', [OrganizerController::class, 'login']);
 });
 Route::middleware(['organizer'])->prefix('organizer')->as('organizer.')->group(function () {
     Route::get('/dashboard', function () {
@@ -83,12 +84,19 @@ Route::middleware(['organizer'])->prefix('organizer')->as('organizer.')->group(f
     Route::post('/events', [EventController::class, 'addEvent'])->name('addEvent');
 });
 
-Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('admin/login', [AdminController::class, 'login']);
-Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware('admin.guest')->group(function () {
+    Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/admin/login', [AdminController::class, 'login']);
+});
+Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
+    // tag and category
+    Route::get('/tag', [TagController::class, 'index'])->name('tag');
+    Route::post('/tag', [TagController::class, 'add'])->name('tag.add');
+    Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
+    Route::delete('/tag/{tag}', [TagController::class, 'remove'])->name('tag.remove');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
