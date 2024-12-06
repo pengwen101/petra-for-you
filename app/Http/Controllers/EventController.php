@@ -204,6 +204,20 @@ class EventController extends Controller
         }
     }
 
+    public function deleteEvent(Request $request){
+        $request->validate([
+            'id' => 'required|exists:events,id'
+        ]);
+
+        try {
+            $event = Event::find($request->id);
+            $event->delete();
+            return redirect()->route('organizer.events')->with('success', 'Event deleted');
+        } catch (\Exception $e) {
+            return redirect()->route('organizer.events')->with('error', $e->getMessage());
+        }
+    }
+
     public function updateEvent(Request $request)
     {
         $request->validate([
