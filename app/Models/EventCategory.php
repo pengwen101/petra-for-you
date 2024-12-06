@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class EventCategory extends Model
 {
+    protected $table = 'event_categories';
     protected $fillable = [
         'name',
         'notes',

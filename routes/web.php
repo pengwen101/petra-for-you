@@ -122,15 +122,18 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
 
     // Booking
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking', [BookingController::class, 'add'])->name('booking.add');
     Route::put('/booking/{booking}', [BookingController::class, 'update'])->name('booking.update');
+    Route::put('/booking/validate/{booking}', [BookingController::class, 'validate'])->name('booking.validate');
     Route::delete('/booking/{booking}', [BookingController::class, 'remove'])->name('booking.remove');
+    Route::get('/booking/edit/{booking}', [BookingController::class, 'edit'])->name('booking.edit');
 
     // Organizer
     Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer');
-    Route::post('/organizer', [OrganizerController::class, 'add'])->name('organizer.add');
-    Route::put('/organizer/{organizer}', [OrganizerController::class, 'update'])->name('organizer.update');
-    Route::delete('/organizer/{organizer}', [OrganizerController::class, 'remove'])->name('organizer.remove');
+    // Route::post('/organizer', [OrganizerController::class, 'add'])->name('organizer.add');
+    Route::put('/organizer/{organizer}', [OrganizerController::class, 'toggleActivate'])->name('organizer.toggleActivate');
+    // Route::delete('/organizer/{organizer}', [OrganizerController::class, 'remove'])->name('organizer.remove');
 
     // Admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');

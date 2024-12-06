@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>myAdmin</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     @yield('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -25,6 +26,7 @@
             </div>
         </footer>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 
     <script type="module">
         @if (session('success'))
@@ -43,6 +45,7 @@
             });
         @endif
     </script>
+    @yield('script')
 </body>
 
 </html>
