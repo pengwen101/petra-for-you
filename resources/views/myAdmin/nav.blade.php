@@ -9,6 +9,8 @@
                 <div class="ml-10 flex items-baseline space-x-4">
                     <a href="{{ route('admin.dashboard') }}"
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Dashboard</a>
+                    <a href="{{ route('admin.user') }}"
+                        class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">User</a>
                     <a href="{{ route('admin.event') }}"
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Events</a>
                     <a href="{{ route('admin.tag') }}"
@@ -41,6 +43,8 @@
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="{{ route('admin.dashboard') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Dashboard</a>
+            <a href="{{ route('admin.user') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">User</a>
             <a href="{{ route('admin.event') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Events</a>
             <a href="{{ route('admin.tag') }}"

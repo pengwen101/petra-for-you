@@ -56,7 +56,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $admins = Admin::all(['id', 'name', 'active']);
+        $admins = Admin::all(['id', 'name', 'active'])->sortByDesc('created_at');
         return view('myAdmin.admin.admin', compact('admins'));
     }
 
