@@ -9,51 +9,85 @@
                 <div class = "cursor-pointer px-4 py-2 w-fit  bg-summer text-white">Explore events, for you.</div>
             </div>
 
+            <!--Right Swiper-->
             <div class = "flex flex-col gap-5 bg-light-yellow p-10 h-fit items-center justify-center max-w-[70%]">
                 <div class = "text-xl font-bold text-midnight">Events this month</div>
-                <div class = "max-w-[500px]">
-                    <div class="w-75 swiper mySwiper">
-                        <div class="swiper-wrapper">
-                            @foreach ($eventsThisMonth as $event)
-                                <div class="swiper-slide">
-                                    <div class="h-max rounded-lg bg-gray-200 dark:bg-gray-700">
-                                        @php
-                                            $start_date = Carbon::parse($event->start_date);
-                                            $year = $start_date->format('Y');
-                                            $month = $start_date->format('M');
-                                            $day = $start_date->format('d');
-                                        @endphp
-                                        <!-- {{$year}} {{$month}} {{$day}} -->
-                                        <x-history-card
-                                        :title="$event->title"
-                                        :description="$event->description"
-                                        :year="$year"
-                                        :month="$month"
-                                        :day="$day"
-                                        ></x-history-card>
+                    <div class = "max-w-[500px]">
+                        <div class="w-75 swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                @foreach ($eventsThisMonth as $event)
+                                    <div class="swiper-slide">
+                                        <div class="h-[400px] rounded-lg bg-gray-200 dark:bg-gray-700">
+                                            @php
+                                                // Truncate the description
+                                                $truncatedDescription = strlen($event->description) > 60 ? substr($event->description, 0, 60) . '...' : $event->description;
+                                                
+                                                // Format dates using PHP
+                                                $start_date = \Carbon\Carbon::parse($event->start_date)->format('d/m/Y');
+                                                $end_date = \Carbon\Carbon::parse($event->end_date)->format('d/m/Y');
+                                                $max_register_date = \Carbon\Carbon::parse($event->max_register_date)->format('d/m/Y');
+                                                
+                                                // Generate event tags HTML
+                                                $eventTagsHtml = '';
+                                                foreach ($event->tags as $tag) {
+                                                    $eventTagsHtml .= '<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-dark-blue px-3 py-1.5 text-[10px] font-medium text-white">' . ($tag->name) . '</strong>';
+                                                }
+                                            @endphp
+                                            <x-cards.bookmark>
+                                                <x-slot name="title">{{ $event->title }}</x-slot>
+                                                <x-slot name="description">{{ $truncatedDescription }}</x-slot>
+                                                <x-slot name="tags">{!! $eventTagsHtml !!}</x-slot>
+                                                <x-slot name="random">{{ $event->id }}</x-slot> 
+                                                <x-slot name="max_register_date">{{ $max_register_date }}</x-slot>
+                                                <x-slot name="start_date">{{ $start_date }}</x-slot>
+                                                <x-slot name="end_date">{{ $end_date }}</x-slot>
+                                                <x-slot name="event_id">{{ $event->id }}</x-slot> 
+                                            </x-cards.bookmark>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-        
                     </div>
                 </div>
             </div>
-            
-          
         </div>
-
-
-
     </div>
 
-    <div class="py-12">
+    <div class="py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-
             <h2 class = "text-xl font-bold dark:text-gray-200">You might like these...</h2>
 
             <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto dark:text-gray-200 ">
+                @foreach ($suggestedEvents as $event)
+                    <div class=' flex-none w-full sm:w-[49%] shadow rounded-lg '>
+                        @php
+                            // Truncate the description
+                            $truncatedDescription = strlen($event->description) > 60 ? substr($event->description, 0, 60) . '...' : $event->description;
+                            
+                            // Format dates using PHP
+                            $start_date = \Carbon\Carbon::parse($event->start_date)->format('d/m/Y');
+                            $end_date = \Carbon\Carbon::parse($event->end_date)->format('d/m/Y');
+                            $max_register_date = \Carbon\Carbon::parse($event->max_register_date)->format('d/m/Y');
+                            
+                            // Generate event tags HTML
+                            $eventTagsHtml = '';
+                            foreach ($event->tags as $tag) {
+                                $eventTagsHtml .= '<strong class="rounded border border-indigo-500 dark:border-indigo-900 dark:bg-indigo-900 bg-dark-blue px-3 py-1.5 text-[10px] font-medium text-white">' . e($tag->name) . '</strong>';
+                            }
+                        @endphp
+                        <x-cards.bookmark>
+                            <x-slot name="title">{{ $event->title }}</x-slot>
+                            <x-slot name="description">{{ $truncatedDescription }}</x-slot>
+                            <x-slot name="tags">{!! $eventTagsHtml !!}</x-slot>
+                            <x-slot name="random">{{ $event->id }}</x-slot> 
+                            <x-slot name="max_register_date">{{ $max_register_date }}</x-slot>
+                            <x-slot name="start_date">{{ $start_date }}</x-slot>
+                            <x-slot name="end_date">{{ $end_date }}</x-slot>
+                            <x-slot name="event_id">{{ $event->id }}</x-slot> 
+                        </x-cards.bookmark>
+                    </div>
+                @endforeach
             </div>
 
             <h2 class = "text-xl font-bold mt-5 dark:text-gray-200">All Events</h2>
@@ -93,7 +127,7 @@
             type: 'GET',
             success: function(response) {
                 let html = '';
-                console.log(response)
+                console.log(response);
                 response.forEach((event, index) => {
                     let truncatedDescription = event.description.substring(0, 60);
                     let start_date = new Date(event.start_date);
@@ -106,7 +140,6 @@
 
                     max_register_date =
                         `${max_register_date.getDate()}/${max_register_date.getMonth()+1}/${max_register_date.getFullYear()}`;
-
 
                     let eventTagsHtml = '';
                     event.tags.forEach(tag => {
@@ -134,8 +167,8 @@
             error: function(xhr) {
                 console.log(xhr);
             },
-            complete: function() {
-                console.log('complete');
+            comp$: function() {
+                console.log('comp$');
             }
         });
 
@@ -187,8 +220,8 @@
             error: function(xhr) {
                 console.log(xhr);
             },
-            complete: function() {
-                console.log('complete');
+            comp$: function() {
+                console.log('comp$');
             }
         });
     });
@@ -210,10 +243,10 @@
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
                 type: 'GET',
                 success: function(response) {
-                    let bookmarkedEventIds = response.map(event => event.id);
+                    $bookmarkedEventIds = response.map(event => event.id);
                     console.log(bookmarkedEventIds);
                     $('.bookmark').each(function() {
-                        let eventId = $(this).siblings('input[name="event_id"]').val();
+                        $eventId = $(this).siblings('input[name="event_id"]').val();
                         if (bookmarkedEventIds.includes(parseInt(eventId))) {
                             $(this).find('svg').attr('fill', 'red');
                         }
@@ -247,8 +280,8 @@
                 error: function(xhr) {
                     console.log(xhr);
                 },
-                complete: function() {
-                    console.log('completed');
+                comp$: function() {
+                    console.log('comp$d');
                 }
             });
         });

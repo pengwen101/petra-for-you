@@ -50,7 +50,7 @@
 
         <!-- Register Button -->
         <div class="mt-8">
-            <a href="/booking/{{ $event->id }}"
+            <a href="/booking/show/{{ $event->id }}"
                 class="block w-full text-center bg-emerald-600 border-2 border-emerald-700 text-white py-3 rounded-lg hover:bg-emerald-700 transition shadow-lg dark:bg-green-800 dark:hover:bg-green-900 dark:border-green-600 dark:border-2">
                 Book Now
             </a>

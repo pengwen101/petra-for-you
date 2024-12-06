@@ -89,11 +89,11 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/detail/{event}', [EventController::class, 'show'])->name('detail');
+Route::get('/detail/{event}', [EventController::class, 'show'])->name('event.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/booking/{event_id}', [BookingController::class, 'show'])->name('booking.create');
-    Route::post('/booking/{event}', [BookingController::class, 'store'])->name('booking.store');
+    Route::get('/booking/show/{event}', [BookingController::class, 'show'])->name('booking.show');
+    Route::post('/booking/store/{event}', [BookingController::class, 'store'])->name('booking.store');
 });
 
 

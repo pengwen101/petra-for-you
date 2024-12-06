@@ -1,14 +1,14 @@
 <x-app-layout>
+   
     <div class="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
-        <h1 class="text-2xl font-bold text-center mb-6 dark:text-white">Upload Proof of Payment</h1>
         @if(session('success'))
             <div class="mb-4 text-green-700 bg-green-100 p-3 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
-        <form action="{{ route('booking.store', $event_id) }}" method="POST" enctype="multipart/form-data">
+        <h1 class="text-2xl font-bold text-center mb-6 dark:text-white">Booking Confirmation</h1>
+        <form action="{{ route('booking.store', $event->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-
             <!-- Proof of Payment -->
             <div class="mb-6">
                 <label for="proof_of_payment" class="block text-sm font-medium text-gray-700 dark:text-white">Proof of Payment</label>
