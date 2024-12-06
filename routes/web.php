@@ -86,6 +86,7 @@ Route::middleware(['organizer'])->prefix('organizer')->as('organizer.')->group(f
     Route::post('/events', [EventController::class, 'addEvent'])->name('addEvent');
     Route::delete('/events', [EventController::class, 'deleteEvent'])->name('deleteEvent');
     Route::post('/events/toggle/{event}', [EventController::class, 'toggleEvent'])->name('toggleEvent');
+    Route::put('/events', [EventController::class, 'updateEvent'])->name('updateEvent');
 });
 
 Route::middleware('admin.guest')->group(function () {
@@ -105,8 +106,6 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
 
     // Event
     Route::get('/event', [EventController::class, 'index'])->name('event');
-    Route::post('/event', [EventController::class, 'add'])->name('event.add');
-    Route::put('/event/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/{event}', [EventController::class, 'remove'])->name('event.remove');
 
     // Tag
