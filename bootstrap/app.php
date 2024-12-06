@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RedirectIfAdminAuthenticated;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\CheckOrganizer;
 use App\Http\Middleware\RedirectIfOrganizerAuthenticated;
@@ -17,7 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'organizer' => CheckOrganizer::class,
             'organizer.guest' => RedirectIfOrganizerAuthenticated::class,
-            'admin' => CheckAdmin::class
+            'admin' => CheckAdmin::class,
+            'admin.guest' => RedirectIfAdminAuthenticated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

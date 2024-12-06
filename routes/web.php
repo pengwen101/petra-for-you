@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('organizer.guest')->group(function () {
     Route::get('/organizer/login', [OrganizerController::class, 'showLoginForm'])->name('organizer.login');
-    Route::post('organizer/login', [OrganizerController::class, 'login']);    
+    Route::post('organizer/login', [OrganizerController::class, 'login']);
 });
 Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('organizer.')->group(function () {
     Route::get('/dashboard', function () {
@@ -82,9 +82,11 @@ Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('org
     Route::post('/events', [EventController::class, 'store'])->name('events.store');
 });
 
-Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-Route::post('admin/login', [AdminController::class, 'login']);
-Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware('admin.guest')->group(function () {
+    Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/admin/login', [AdminController::class, 'login']);
+});
+Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
