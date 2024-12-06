@@ -17,8 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'organizer' => CheckOrganizer::class,
             'organizer.guest' => RedirectIfOrganizerAuthenticated::class,
+            'admin' => CheckAdmin::class
         ]);
-        $middleware = $middleware->alias(['admin' => CheckAdmin::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
