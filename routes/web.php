@@ -79,7 +79,7 @@ Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('org
     })->name('bookings');
 });
 
-Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'login']);
 Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
