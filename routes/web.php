@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventCategoryController;
 
 Route::get('/', function () {
@@ -97,10 +98,14 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
 
-    // Events
+    // User
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{user}', [UserController::class, 'remove'])->name('user.remove');
+
+
+    // Event
     Route::get('/event', [EventController::class, 'index'])->name('event');
-    Route::post('/event', [EventController::class, 'add'])->name('event.add');
-    Route::put('/event/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/{event}', [EventController::class, 'remove'])->name('event.remove');
 
     // Tag
