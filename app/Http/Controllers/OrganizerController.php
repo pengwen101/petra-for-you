@@ -14,7 +14,7 @@ class OrganizerController extends Controller
 
     public function login(Request $request){
          // Validate the request
-         $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
@@ -23,19 +23,10 @@ class OrganizerController extends Controller
 
         if (Auth::guard('organizer')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('organizer.dashboard')->with('success', 'Login successful');
+            return redirect()->route('organizer.events')->with('success', 'Login successful');
         }
         return back()->with('error' , 'Invalid email or password');
     }
-}
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class OrganizerController extends Controller
-{
     /**
      * Display a listing of the resource.
      */
