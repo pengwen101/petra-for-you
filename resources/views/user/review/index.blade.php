@@ -100,7 +100,7 @@
                                         {{$review->review}}
                                     </p>
                                     @if ($review->user_id == Auth::id())
-                                        <a class="text-xs opacity-50 text-blue-500 dark:opacity-100" href="#">edit</a>
+                                        <a href="{{ route('user.editReview', $review->id) }}" class="text-xs opacity-50 text-blue-500 dark:opacity-100">edit</a>
                                     @endif
                                 </div>
                             </div>

@@ -8,15 +8,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="bg-light-cream min-h-screen flex flex-col align-items-center">
 
     @if (session('error'))
         <div class="bg-green-500 text-white p-4 text-center">
             {{ session('error') }}
         </div>
     @endif
+    <div class="bg-light-yellow w-80 rounded-lg shadow-lg min-w-xl max-w-4xl mx-auto my-auto p-4">
+        <h1 class="mb-4 text-center text-lg font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">Organizer Login</h1>
 
-    <form class="max-w-sm mx-auto" action="{{ route('organizer.login') }}" method="POST">
+    <form class="w-full mx-auto" action="{{ route('organizer.login') }}" method="POST">
         @csrf
         <div class="mb-5">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -36,6 +38,10 @@
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
     </form>
 
+
+    </div>
+
+    
 </body>
 
 </html>

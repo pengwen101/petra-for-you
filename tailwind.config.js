@@ -27,7 +27,9 @@ export default {
     },
     plugins: [
         forms,
-        require('flowbite/plugin')
+        require('flowbite/plugin')({
+            datatables: true,
+        }),
     ],
     darkMode: 'class' 
 };
