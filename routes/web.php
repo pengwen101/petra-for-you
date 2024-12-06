@@ -105,8 +105,6 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
 
     // Event
     Route::get('/event', [EventController::class, 'index'])->name('event');
-    Route::post('/event', [EventController::class, 'add'])->name('event.add');
-    Route::put('/event/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('/event/{event}', [EventController::class, 'remove'])->name('event.remove');
 
     // Tag

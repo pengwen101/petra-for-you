@@ -94,7 +94,7 @@ class EventController extends Controller
         return response()->json($events->get());
     }
 
-    public function unsuggest(Collection $eventTagMappings, int $user_id,  int $score)
+    public function unsuggest(Collection $eventTagMappings, int $user_id, int $score)
     {
         foreach ($eventTagMappings as $eventTagMapping) {
             $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
@@ -110,8 +110,7 @@ class EventController extends Controller
         }
     }
 
-
-    public function suggest(Collection $eventTagMappings, int $user_id,  int $score)
+    public function suggest(Collection $eventTagMappings, int $user_id, int $score)
     {
         foreach ($eventTagMappings as $eventTagMapping) {
             $userTagMapping = UserTagMapping::where('user_id', $user_id)->where('tag_id', $eventTagMapping->tag_id)->first();
@@ -194,12 +193,10 @@ class EventController extends Controller
             $event->eventCategories()->attach($request->event_category_id);
 
             return redirect()->route('organizer.events')->with('success', 'Event added');
-        } 
-        catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
             // Debug validation errors
-            dd($e->errors()); 
-        }
-        catch (\Exception $e) {
+            dd($e->errors());
+        } catch (\Exception $e) {
             return redirect()->route('organizer.events')->with('error', $e->getMessage());
         }
     }
@@ -212,7 +209,8 @@ class EventController extends Controller
 
     }
 
-    public function deleteEvent(Request $request){
+    public function deleteEvent(Request $request)
+    {
         $request->validate([
             'id' => 'required|exists:events,id'
         ]);
@@ -256,6 +254,25 @@ class EventController extends Controller
             return response()->json(['message' => 'Event updated']);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function index()
+    {
+        $events = Event::all()->sortByDesc('created_at');
+        return view('myAdmin.event.event', compact('events'));
+    }
+
+    public function remove($id)
+    {
+        $event = Event::findOrFail($id);
+
+        try {
+            $event->update(['is_shown' => false]);
+
+            return redirect()->route('admin.event')->with('success', 'Event successfully hidden');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.event')->with('error', 'Failed to remove the event');
         }
     }
 }
