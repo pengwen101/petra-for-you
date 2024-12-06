@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session as FacadesSession;
 
 class ReviewController extends Controller
 {
@@ -15,5 +16,35 @@ class ReviewController extends Controller
             ->get();
         $averageStars = $reviews->avg('stars');
         return view('user.review.index', compact('reviews', 'event', 'averageStars'));
+    }
+
+    public function edit($id)
+    {
+        $booking = Booking::find($id);
+        return view('user.review.edit', compact('booking'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $validatedData = $request->validate([
+            'review' => 'required|max:255',
+            'stars' => 'required|integer|min:1|max:5',
+        ]);
+
+        if (!$validatedData) {
+            FacadesSession::flash('message', 'Review update failed!');
+            FacadesSession::flash('alert-class', 'failed');
+            return redirect()->route('user.history');
+        }
+
+        Booking::query()->where('id', $id)->update([
+            'review' => $request->review,
+            'stars' => $request->stars,
+            'updated_at' => now()
+        ]);
+
+        FacadesSession::flash('message', 'Review updated successfully!');
+        FacadesSession::flash('alert-class', 'success');
+        return redirect()->route('user.history');
     }
 }

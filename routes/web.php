@@ -25,6 +25,8 @@ Route::middleware(['auth', 'verified'])->prefix('user')->as('user.')->group(func
     })->name('events');
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
     Route::get('/history/review/{id}', [ReviewController::class, 'index'])->name('review');
+    Route::get('/history/review/{id}/edit', [ReviewController::class, 'edit'])->name('editReview');
+    Route::post('/history/review/{id}/update', [ReviewController::class, 'update'])->name('updateReview');
 });
 
 Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
@@ -80,7 +82,7 @@ Route::middleware(['auth:organizer', 'organizer'])->prefix('organizer')->as('org
     Route::post('/events', [EventController::class, 'store'])->name('events.store');
 });
 
-Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::get('admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
 Route::post('admin/login', [AdminController::class, 'login']);
 Route::middleware(['auth:admin', 'admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {

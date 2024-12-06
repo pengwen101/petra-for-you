@@ -16,20 +16,32 @@ class BookingSeeder extends Seeder
      */
     public function run(): void
     {
-        $user_id_count = User::get()->count();
-        $event_id_count = Event::get()->count();
-        $status = ["not started", "ongoing", "finished"];
+        $user_id_count = User::count();
+        $event_id_count = Event::count();
+        $statusOptions = ["not started", "ongoing", "finished"];
+        $faker = Factory::create();
 
-        for($i = 1; $i <=$user_id_count; $i++){
+        for ($i = 1; $i <= $user_id_count; $i++) {
             $event_count_per_user = rand(2, 6);
-            $faker = Factory::create();
-            for($j = 1; $j <= $event_count_per_user; $j++){
+            $hasReviewed = false; // Track if the user has already reviewed
+
+            for ($j = 1; $j <= $event_count_per_user; $j++) {
+                $status = $statusOptions[rand(0, count($statusOptions) - 1)];
+
+                // Only allow a review if the status is "finished" and the user hasn't reviewed yet
+                $review = $status === "finished" && !$hasReviewed ? $faker->paragraph() : null;
+
+                // Mark as reviewed if a review is added
+                if ($review !== null) {
+                    $hasReviewed = true;
+                }
+
                 DB::table("bookings")->insert([
-                    'user_id' => rand(1, $user_id_count),
+                    'user_id' => $i, // Ensure user_id is consistent
                     'event_id' => rand(1, $event_id_count),
-                    'status' => $status[rand(0, count($status)-1)],
-                    'review' => $faker->paragraph(),
-                    'stars' => rand(1, 5),
+                    'status' => $status,
+                    'review' => $review,
+                    'stars' => $review !== null ? rand(1, 5) : null, // Only assign stars if there's a review
                     'payment_url' => $faker->url(),
                     'is_payment_validated' => rand(0, 1),
                 ]);
