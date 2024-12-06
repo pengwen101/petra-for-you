@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             // BookmarkSeeder::class,
             RoleSeeder::class,
             // UserTagMappingSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

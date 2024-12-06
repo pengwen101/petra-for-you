@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
-    //
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('organizer.login');
     }
 
@@ -19,14 +19,15 @@ class OrganizerController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
-        
+
 
         if (Auth::guard('organizer')->attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->route('organizer.events')->with('success', 'Login successful');
         }
-        return back()->with('error' , 'Invalid email or password');
+        return back()->with('error', 'Invalid email or password');
     }
+
     /**
      * Display a listing of the resource.
      */

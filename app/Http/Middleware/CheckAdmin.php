@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckOrganizer
+class CheckAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class CheckOrganizer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('organizer')->check()) {
-            return redirect()->route('organizer.login');
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login');
         }
         return $next($request);
     }
