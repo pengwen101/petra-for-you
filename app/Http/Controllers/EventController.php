@@ -28,6 +28,13 @@ class EventController extends Controller
         return response()->json($events);
     }
 
+    public function getEventBookings($event)
+    {
+        $bookings = Booking::where('event_id', $event)->with('user')->get();
+
+        return response()->json($bookings);
+    }
+
     public function getUserBookings($user)
     {
         // Get all event IDs from the bookings for the given user

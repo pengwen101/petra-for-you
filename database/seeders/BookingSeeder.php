@@ -22,10 +22,15 @@ class BookingSeeder extends Seeder
         $faker = Factory::create();
 
         for ($i = 1; $i <= $user_id_count; $i++) {
-            $event_count_per_user = rand(2, 6);
+            $event_count_per_user = rand(5, 10);
             $hasReviewed = false; // Track if the user has already reviewed
+            $bookedEvents = []; // Track events that the user has already booked
 
             for ($j = 1; $j <= $event_count_per_user; $j++) {
+                do {
+                    $event_id = rand(1, $event_id_count);
+                } while (in_array($event_id, $bookedEvents));
+
                 $status = $statusOptions[rand(0, count($statusOptions) - 1)];
 
                 // Only allow a review if the status is "finished" and the user hasn't reviewed yet
@@ -38,13 +43,16 @@ class BookingSeeder extends Seeder
 
                 DB::table("bookings")->insert([
                     'user_id' => $i, // Ensure user_id is consistent
-                    'event_id' => rand(1, $event_id_count),
+                    'event_id' => $event_id,
                     'status' => $status,
                     'review' => $review,
                     'stars' => $review !== null ? rand(1, 5) : null, // Only assign stars if there's a review
                     'payment_url' => $faker->url(),
                     'is_payment_validated' => rand(0, 1),
                 ]);
+
+                // Add the event to the list of booked events
+                $bookedEvents[] = $event_id;
             }
         }
     }

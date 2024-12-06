@@ -14,7 +14,7 @@
     aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
-            <li>
+            {{-- <li>
                 <a href="{{ route('organizer.dashboard') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -26,7 +26,7 @@
                     </svg>
                     <span class="ms-3">Dashboard</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route('organizer.events') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -38,7 +38,7 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Manage Events</span>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{ route('organizer.bookings') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -49,8 +49,8 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Manage Bookings</span>
                     
                 </a>
-            </li>
-            <li>
+            </li> --}}
+            {{-- <li>
                 <a href="#"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -60,7 +60,7 @@
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Manage Participants</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{ route('organizer.logout') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -73,7 +73,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="{{ route('user.dashboard') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

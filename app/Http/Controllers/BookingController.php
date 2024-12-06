@@ -232,4 +232,10 @@ class BookingController extends Controller
             'message' => 'Event booked successfully!',
         ], 200);
     }
+
+    public function toggleBooking($booking) {
+        $booking->is_payment_validated = !$booking->is_payment_validated;
+        $booking->save();
+        return redirect()->route('organizer.events');
+    }
 }
