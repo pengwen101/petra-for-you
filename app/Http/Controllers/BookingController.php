@@ -23,9 +23,24 @@ class BookingController extends Controller
 
     public function store(Request $request, Event $event)
     {
+        $user = Auth::user();
+        $userBooking = Booking::where('user_id', $user->id)->where('event_id', $event->id)->first();
+        if($userBooking){
+            return response()->json([
+                'success' => false,
+                'message' => 'You have booked this event.',
+            ]);
+        }
         $request->validate([
-            'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'line-id' => 'required',
+            'phone-number' => 'required',
         ]);
+
+        if($event->price > 0){
+            $request->validate([
+                'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        }
 
         // Handle file upload
         $filePath = $request->file('proof_of_payment')->store('proof_of_payments', 'public');
@@ -36,17 +51,17 @@ class BookingController extends Controller
         $startDateTime = Carbon::parse($event->start_date . ' ' . $event->start_time);
         $endDateTime = Carbon::parse($event->end_date . ' ' . $event->end_time);
 
-        $status = 'Ongoing';
+        $status = 'ongoing';
         if ($currentDateTime->lt($startDateTime)) {
-            $status = 'Not Started'; // Booking is before the event
+            $status = 'not Started'; // Booking is before the event
         }
 
         if ($currentDateTime->gt($endDateTime)) {
-            $status = 'Finished'; // Booking is after the event
+            $status = 'finished'; // Booking is after the event
         }
 
         // Find the booking for the logged-in user (assuming one active booking per user)
-        $user = Auth::user();
+        
         Booking::create([
             'user_id' => $user->id,
             'event_id' => $event->id,
@@ -57,6 +72,9 @@ class BookingController extends Controller
         // Optionally save file path to the database
         // Example: PaymentProof::create(['file_path' => $filePath]);
 
-        return back()->with('success', 'Payment Uploaded successfully.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Event booked successfully!',
+        ], 200);
     }
 }
