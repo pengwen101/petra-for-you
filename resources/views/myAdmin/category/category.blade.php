@@ -4,7 +4,7 @@
 <div class="container mx-auto p-4">
     <div class="flex justify-between items-center mb-4">
         <span class="text-2xl font-bold">Categories</span>
-        <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded">Add Tag</button>
+        <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded">Add Category</button>
     </div>
 
     <table class="min-w-full bg-white mt-4">
