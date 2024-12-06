@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained('events', 'id')->onDelete('cascade');
             $table->foreignId('tag_id')->constrained('tags', 'id')->onDelete('cascade');
-            $table->string("score");
+            $table->string("score")->default(0);
             $table->timestamps();
         });
     }
