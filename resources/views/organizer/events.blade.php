@@ -253,9 +253,14 @@
                                     {{-- update form  --}}
                                     <input type="hidden" value="{{ $e->id }}">
                                     <button data-modal-target="default-modal" data-modal-toggle="default-modal"
-                                        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        class="updateModal mb-2 block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                         type="button">
                                         Update
+                                    </button>
+                                    <button data-modal-target="booking-modal" data-modal-toggle="booking-modal"
+                                        class="bookingModal block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        type="button">
+                                        Booking
                                     </button>
                                 </td>
                             </tr>
@@ -357,7 +362,8 @@
 
                         </div>
                         <div>
-                            <label for="update_price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label for="update_price"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Price
                             </label>
                             <input type="number" id="update_price" name="price"
@@ -366,7 +372,6 @@
                             @error('price')
                                 <span class="text-red-500 text-xs">{{ $message }}</span>
                             @enderror
-
 
                             <input type="hidden" name='organizer_id'
                                 value="{{ Auth::guard('organizer')->user()->id }}">
@@ -427,15 +432,85 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    {{-- <button data-modal-hide="default-modal" type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
+                        accept</button> --}}
                     <button data-modal-hide="default-modal" type="button"
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Booking modal -->
+    <div id="booking-modal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Booking Table
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="booking-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+
+                    <table id="booking-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="flex items-center">
+                                        Name
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
+                                        Status
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
+                                        Proof of Payment
+                                    </span>
+                                </th>
+                                <th>
+                                    <span class="flex items-center">
+                                        Validation
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="" id="booking-body">
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                    <button data-modal-hide="booking-modal" type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
                         accept</button>
-                    <button data-modal-hide="default-modal" type="button"
+                    <button data-modal-hide="booking-modal" type="button"
                         class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 @endsection
 
@@ -477,6 +552,14 @@
                 sortable: false
             });
         }
+
+        if (document.getElementById("booking-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+            const dataTable = new simpleDatatables.DataTable("#booking-table", {
+                searchable: true,
+                sortable: false
+            });
+        }
+
         function formatDateTime(date, time) {
             // Ensure the time is in the format HH:MM:SS
             const timeParts = time.split(':');
@@ -487,7 +570,7 @@
         }
 
         //when modal is toggled fill the form with the data using ajax
-        document.querySelectorAll('[data-modal-toggle]').forEach(item => {
+        document.querySelectorAll('.updateModal').forEach(item => {
             item.addEventListener('click', function() {
                 const modal = document.getElementById('default-modal');
                 modal.classList.remove('hidden');
@@ -499,24 +582,35 @@
                         id: id
                     },
                     type: 'GET',
-                    success: function (response) {
-                        if (response){
-                            
+                    success: function(response) {
+                        if (response) {
+
+
                             const dataset = Array.isArray(response) ? response : [response];
                             dataset.forEach(data => {
                                 if (data.id == id) {
                                     document.getElementById('update_id').value = id;
-                                    document.getElementById('update_title').value = data.title;
-                                    document.getElementById('update_venue').value = data.venue;
-                                    document.getElementById('update_max_date').value = data.max_register_date;
-                                    document.getElementById('update_start_date').value = formatDateTime(data.start_date,data.start_time);
-                                    document.getElementById('update_end_date').value = formatDateTime(data.end_date, data.end_time);
-                                    document.getElementById('update_price').value = data.price;
-                                    document.getElementById('update_description').value = data.description;
+                                    document.getElementById('update_title').value = data
+                                        .title;
+                                    document.getElementById('update_venue').value = data
+                                        .venue;
+                                    document.getElementById('update_max_date').value =
+                                        data.max_register_date;
+                                    document.getElementById('update_start_date').value =
+                                        formatDateTime(data.start_date, data
+                                            .start_time);
+                                    document.getElementById('update_end_date').value =
+                                        formatDateTime(data.end_date, data.end_time);
+                                    document.getElementById('update_price').value = data
+                                        .price;
+                                    document.getElementById('update_description')
+                                        .value = data.description;
                                     const tagIds = data.tags.map(tag => tag.id);
-                                    const categoryIds = data.event_categories.map(category => category.id);
+                                    const categoryIds = data.event_categories.map(
+                                        category => category.id);
                                     $('.update_tag').val(tagIds).trigger('change');
-                                    $('.update_category').val(categoryIds).trigger('change');
+                                    $('.update_category').val(categoryIds).trigger(
+                                        'change');
                                 }
                             })
 
@@ -525,6 +619,64 @@
                 });
             });
         });
-        
+
+        document.querySelectorAll('.bookingModal').forEach(item => {
+            item.addEventListener('click', function() {
+                const modal = document.getElementById('booking-modal');
+                modal.classList.remove('hidden');
+                modal.setAttribute('aria-hidden', 'false');
+                const id = $(this).siblings('input').val();
+                $.ajax({
+                    url: `/api/events/book-event/${id}`,
+                    // data: {
+                    //     id: id
+                    // },
+                    type: 'GET',
+                    success: function(response) {
+
+                        console.log(response);
+                        let html = '';
+                        if (response) {
+
+                            if (response.length == 0) {
+                                html += `<tr>
+                                    <td colspan="4" class="text-center">No bookings yet</td>
+                                    
+                            
+                                </tr>`;
+                            } else {
+                                response.forEach(data => {
+                                    html += `<tr>
+                                    <td>${data.user.name}</td>
+                                    <td>${data.status}</td>
+                                    <td>${data.payment_url}</td>
+                                    <td>
+                                    <form action="/organizer/bookings/toggle/${data.id}"
+                                        method="POST">
+                                        @csrf
+                                        <label class="inline-flex items-center mb-5 cursor-pointer">
+                                            <input type="checkbox" name="is_payment_validated" value="1" class="sr-only peer"
+                                                ${data.is_payment_validated} ? 'checked' : '' onchange="this.form.submit()">
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                            </div>
+                                        </label>
+                                    </form>
+                                    </td>
+                                </tr>`;
+                                });
+
+
+                            }
+
+                            $('#booking-body').html(html);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching bookings:', error);
+                    }
+                });
+            });
+        });
     </script>
 @endsection

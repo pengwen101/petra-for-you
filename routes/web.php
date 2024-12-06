@@ -38,6 +38,8 @@ Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         // single event base on the id (use query parameter id) or
         Route::get('/', [EventController::class, 'getEvents'])->name('get');
 
+        Route::get('/book-event/{event}', [EventController::class, 'getEventBookings'])->name('getEventBookings');
+
         //return suggested events to user
         Route::get('/suggested/{user}', [HomeController::class, 'getSuggestedEvents'])->name("suggestedEvents");
 
@@ -75,13 +77,11 @@ Route::middleware('organizer.guest')->group(function () {
     Route::post('organizer/login', [OrganizerController::class, 'login']);
 });
 Route::middleware(['organizer'])->prefix('organizer')->as('organizer.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('organizer.dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('organizer.dashboard');
+    // })->name('dashboard');
     Route::get('/events', [OrganizerController::class, 'showEvents'])->name('events');
-    Route::get('/bookings', function () {
-        return view('organizer.bookings');
-    })->name('bookings');
+    Route::get('/bookings/toggle/{booking}', [BookingController::class, 'toggleBooking'])->name('toggleBookings');
     Route::get('/logout', [OrganizerController::class, 'logout'])->name('logout');
     Route::post('/events', [EventController::class, 'addEvent'])->name('addEvent');
     Route::delete('/events', [EventController::class, 'deleteEvent'])->name('deleteEvent');

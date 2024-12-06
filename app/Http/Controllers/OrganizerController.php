@@ -48,6 +48,7 @@ class OrganizerController extends Controller
         return view('organizer.events', compact('events', 'categories', 'tags'));
     }
 
+
     /**
      * Display a listing of the resource.
      */

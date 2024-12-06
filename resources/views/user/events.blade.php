@@ -63,8 +63,8 @@
     $(document).ready(function() {
         let user_id = {{ Auth::user()->id }};
         $.ajax({
-            // url: `/api/events/bookings/${user_id}`,
-            url: `/api/events`,
+            url: `/api/events/bookings/${user_id}`,
+            // url: `/api/events`,
             type: "GET",
             success: function(response) {
                 if (response) {
@@ -98,6 +98,7 @@
                                         <x-slot name="title">${truncatedTitle}</x-slot>
                                         <x-slot name="description">${truncatedDescription} ...</x-slot>
                                         <x-slot name="random">${index}</x-slot> 
+                                        <x-slot name="event_id">${event.id}</x-slot>
                                         <p class="mb-3 font-semibold text-xs text-gray-700/70 dark:text-gray-400">${start_date} - ${end_date}</p>
                                     </x-cards.base>
                                 </div>
