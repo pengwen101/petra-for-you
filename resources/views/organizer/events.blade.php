@@ -12,8 +12,21 @@
 @section('content')
 
     <div class="mb-2 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-
-        <form class="max-w-3xl w-full mx-auto grid grid-cols-2 gap-2" method="POST">
+        @if (session ('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+            
+        @elseif (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+            
+        @endif
+        <form action="{{ route('organizer.addEvent') }}" class="max-w-3xl w-full mx-auto grid grid-cols-2 gap-2"
+            method="POST">
             @csrf
             <div>
                 <div class="mb-5">
@@ -22,6 +35,9 @@
                     <input type="text" id="title" name="title"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         placeholder="Servant Leadership Training" required />
+                    @error('title')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-5">
                     <label for="venue" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -29,6 +45,9 @@
                     <input type="text" id="venue" name="venue" placeholder="Surabaya"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required />
+                    @error('venue')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-5">
                     <label for="max_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -36,35 +55,57 @@
                     <input type="date" id="max_date" name="max_register_date"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required />
+                    @error('max_register_date')
+                        <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="mb-5 grid grid-cols-2 gap-2">
                     <div>
                         <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start
                             date</label>
-                        <input type="date" id="start_date" name="start_date"
+                        <input type="datetime-local" id="start_date" name="start_datetime"
                             class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                             required />
+                        @error('start_date')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
                             date</label>
-                        <input type="date" id="end_date" name="end_date"
+                        <input type="datetime-local" id="end_date" name="end_datetime"
                             class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                             required />
+                        @error('end_date')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
             </div>
             <div>
+                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Price
+                </label>
+                <input type="number" id="price" name="price"
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    required />
+                @error('price')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                @enderror
 
 
                 <input type="hidden" name='organizer_id' value="{{ Auth::guard('organizer')->user()->id }}">
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event
                     Description</label>
-                
+
                 <textarea id="message" name="description" rows="4"
                     class="mb-5 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Event description here..."></textarea>
+                @error('description')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                @enderror
+                    
                 <div class="grid grid-cols-2 gap-2">
                     <div class="mb-5">
                         <label for="tags"
@@ -78,8 +119,9 @@
                                 @endforeach
                             @endif
                         </select>
-                        <input type="hidden" name="tags" id="tags"
-                            value="{{ isset($event) ? implode(',', json_decode($event->tags)) : '' }}">
+                        @error('tag_id')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-5">
                         <label for="categories"
@@ -93,8 +135,9 @@
                                 @endforeach
                             @endif
                         </select>
-                        <input type="hidden" name="tags" id="tags"
-                            value="{{ isset($event) ? implode(',', json_decode($event->tags)) : '' }}">
+                        @error('event_category_id')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
@@ -156,11 +199,11 @@
                                 Categories
                             </span>
                         </th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
-                    @if (count($events) > 0) 
+                    @if (count($events) > 0)
                         @foreach ($events as $e)
                             <tr>
                                 <td>{{ $e->title }}</td>
@@ -169,9 +212,19 @@
                                 <td>{{ $e->max_register_date }}</td>
                                 <td>{{ $e->start_date }}</td>
                                 <td>{{ $e->end_date }}</td>
-                                
-                                <td>{{ $e->tags }}</td>
-                                <td>{{ $e->categories }}</td>
+
+                                <td>
+                                    @foreach ($e->tags as $tag)
+                                        <span
+                                            class="inline-block m-1 bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded">{{ $tag->name }}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($e->eventCategories as $category)
+                                        <span
+                                            class="inline-block m-1 bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded">{{ $category->name }}</span>
+                                    @endforeach
+                                </td>
                             </tr>
                         @endforeach
                     @endif
