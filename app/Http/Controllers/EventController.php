@@ -188,7 +188,7 @@ class EventController extends Controller
 
             $event = Event::create($request->all());
             // insert into event tag mapping
-            $event->tags()->attach($request->tags);
+            $event->tags()->attach($request->tag_id);
 
             // insert into event category mapping
             $event->eventCategories()->attach($request->event_category_id);
