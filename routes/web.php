@@ -85,6 +85,7 @@ Route::middleware(['organizer'])->prefix('organizer')->as('organizer.')->group(f
     Route::get('/logout', [OrganizerController::class, 'logout'])->name('logout');
     Route::post('/events', [EventController::class, 'addEvent'])->name('addEvent');
     Route::delete('/events', [EventController::class, 'deleteEvent'])->name('deleteEvent');
+    Route::post('/events/toggle/{event}', [EventController::class, 'toggleEvent'])->name('toggleEvent');
 });
 
 Route::middleware('admin.guest')->group(function () {
