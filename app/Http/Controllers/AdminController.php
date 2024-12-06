@@ -35,10 +35,10 @@ class AdminController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Auth::guard('admin')->user();
 
-            if (!$admin->is_active) {
-                Auth::guard('admin')->logout();
-                return back()->with('error', 'Your account is not active.');
-            }
+            // if (!$admin->is_active) {
+            //     Auth::guard('admin')->logout();
+            //     return back()->with('error', 'Your account is not active.');
+            // }
 
             $request->session()->regenerate();
 

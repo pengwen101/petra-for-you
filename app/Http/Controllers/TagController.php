@@ -25,7 +25,7 @@ class TagController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('tags.index');
+        return redirect()->route('admin.tag');
     }
 
     public function update(Request $request, $id)
@@ -39,16 +39,12 @@ class TagController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect()->route('tags.index');
+        return redirect()->route('admin.tag');
     }
 
     public function remove($id)
     {
-        Tag::query()->where('id', $id)->update([
-            'name' => $request->name,
-            'updated_at' => now()
-        ]);
-
-        return redirect()->route('tags.index');
+        Tag::destroy($id);
+        return redirect()->route('admin.tag');
     }
 }
