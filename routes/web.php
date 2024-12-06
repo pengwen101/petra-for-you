@@ -123,9 +123,12 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
 
     // Booking
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking', [BookingController::class, 'add'])->name('booking.add');
     Route::put('/booking/{booking}', [BookingController::class, 'update'])->name('booking.update');
+    Route::put('/booking/validate/{booking}', [BookingController::class, 'validate'])->name('booking.validate');
     Route::delete('/booking/{booking}', [BookingController::class, 'remove'])->name('booking.remove');
+    Route::get('/booking/edit/{booking}', [BookingController::class, 'edit'])->name('booking.edit');
 
     // Organizer
     Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer');
