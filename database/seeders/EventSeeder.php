@@ -23,7 +23,7 @@ class EventSeeder extends Seeder
         $tag_id_count = Tag::get()->count();
 
         $faker = Factory::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             DB::table("events")->insert([
                 'title' => $faker->sentence(3),
                 'venue' => $faker->sentence(1),

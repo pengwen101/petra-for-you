@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">
-        Edit Review
+        Create Review
     </x-slot>
 
     <div class=" m-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-5">
@@ -30,7 +30,7 @@
             </div>
             
             <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
-            Update Review
+            Write Review
             </button>
         </form>
     </div>

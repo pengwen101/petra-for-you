@@ -72,41 +72,53 @@
         </h1> <br>
             <div class="shadow-sm sm:rounded-lg">
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
-                @foreach ($reviews as $review) <!-- unsing card component doesn't work argh -->
-                    <div class="h-max rounded-lg bg-gray dark:bg-gray-800">
-                        <article class="rounded-xl border-2 bg-white">
-                            <div class="flex items-start gap-4 p-4 sm:p-6 lg:p-8 bg-white dark:bg-slate-800">
-                                <a href="#" class="block shrink-0">
-                                    <img alt="" src="https://picsum.photos/300/300?random={{ $review->user_id }}" class="size-20 rounded-full object-cover" />
-                                </a>
-                                <div>
-                                    <div class="stars">
-                                        @for ($i = 0; $i < 5; $i++)
-                                            @if ($i < $review->stars)
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-yellow-400 inline-block" fill="currentColor" viewBox="0 0 24 24" stroke="none">
-                                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                                </svg>
-                                            @else
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-300 inline-block" fill="currentColor" viewBox="0 0 24 24" stroke="none">
-                                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                                                </svg>
-                                            @endif
-                                        @endfor
+                @foreach ($reviews as $review) 
+                    @if (!is_null($review->review))
+                        <div class="h-max rounded-lg bg-gray dark:bg-gray-800">
+                            <article class="rounded-xl border-2 bg-white">
+                                <div class="flex items-start gap-4 p-4 sm:p-6 lg:p-8 bg-white dark:bg-slate-800">
+                                    <a href="#" class="block shrink-0">
+                                        <img alt="" src="https://picsum.photos/300/300?random={{ $review->user_id }}" class="size-20 rounded-full object-cover" />
+                                    </a>
+                                    <div>
+                                        <div class="stars">
+                                            @for ($i = 0; $i < 5; $i++)
+                                                @if ($i < $review->stars)
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-yellow-400 inline-block" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+                                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                                    </svg>
+                                                @else
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-300 inline-block" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+                                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                                    </svg>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                        <h3 class="font-medium sm:text-sm text-black dark:text-white">
+                                            <p> {{$review->user->name}} </p>
+                                        </h3>
+                                        <p class="line-clamp-2 text-sm text-gray-700 dark:text-gray-300">
+                                            {{$review->review}}
+                                        </p>
+                                        @if ($review->user_id == Auth::id())
+                                            <a href="{{ route('user.editReview', $review->id) }}" class="text-xs opacity-50 text-blue-500 dark:opacity-100">edit</a>
+                                        @endif
                                     </div>
-                                    <h3 class="font-medium sm:text-sm text-black dark:text-white">
-                                        <p> {{$review->user->name}} </p>
-                                    </h3>
-                                    <p class="line-clamp-2 text-sm text-gray-700 dark:text-gray-300">
-                                        {{$review->review}}
-                                    </p>
-                                    @if ($review->user_id == Auth::id())
-                                        <a href="{{ route('user.editReview', $review->id) }}" class="text-xs opacity-50 text-blue-500 dark:opacity-100">edit</a>
-                                    @endif
                                 </div>
-                            </div>
-                        </article>
-                    </div>
+                            </article>
+                        </div>
+                    @endif
                 @endforeach
+                @if ($event->where('status', 'finished') && $reviews->where('user_id', Auth::id())->where('review', '')->isNotEmpty())
+                    <div class="flex justify-center mt-4">
+                        <form action="{{ route('user.createReview', ['id' => $booking->id]) }}" method="POST"></form>
+                            @csrf
+                            <button type="submit" class="bg-summer hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">
+                                Write a Review
+                            </button>
+                        </form>
+                    </div>
+                @endif
                 </div>
             </div>
         </div>

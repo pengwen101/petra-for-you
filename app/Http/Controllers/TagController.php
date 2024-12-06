@@ -31,24 +31,14 @@ class TagController extends Controller
 
     public function update(Request $request, $id)
     {
-        $tag = Tag::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
+        $request->validate([
+            'name' => 'required|unique:tags,name,' . $id . '|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('admin.user')
-                ->with('error', $validator->errors()->first())
-                ->withInput();
-        }
-
-        $tagData = [
+        Tag::query()->where('id', $id)->update([
             'name' => $request->name,
-            'email' => $request->email,
-        ];
-
-        $tag->update($tagData);
+            'updated_at' => now(),
+        ]);
 
         return redirect()->route('admin.tag');
     }
