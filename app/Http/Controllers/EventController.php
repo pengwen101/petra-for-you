@@ -187,10 +187,22 @@ class EventController extends Controller
 
             $event = Event::create($request->all());
             // insert into event tag mapping
-            $event->tags()->attach($request->tag_id);
+            $tagsWithScores = [];
+            $score = count($request->tag_id);
+            foreach ($request->tag_id as $tag_id) {
+                $tagsWithScores[$tag_id] = ['score' => $score];
+                $score--;
+            }
+            $event->tags()->attach($tagsWithScores);
 
             // insert into event category mapping
-            $event->eventCategories()->attach($request->event_category_id);
+            $eventCategoryWithScores = [];
+            $score = count($request->event_category_id);
+            foreach ($request->event_category_id as $event_category_id) {
+                $eventCategoryWithScores[$event_category_id] = ['score' => $score];
+                $score--;
+            }
+            $event->eventCategories()->attach($eventCategoryWithScores);
 
             return redirect()->route('organizer.events')->with('success', 'Event added');
         } 
@@ -257,10 +269,22 @@ class EventController extends Controller
             $event->update($request->all());
 
             // insert into event tag mapping
-            $event->tags()->sync($request->tag_id);
+            $tagWithScores = [];
+            $score = count($request->tag_id);
+            foreach ($request->tag_id as $tag_id) {
+                $tagWithScores[$tag_id] = ['score' => $score];
+                $score--;
+            }
+            $event->tags()->sync($tagWithScores);
 
             // insert into event category mapping
-            $event->eventCategories()->sync($request->event_category_id);
+            $eventCategoryWithScores = [];
+            $score = count($request->event_category_id);
+            foreach ($request->event_category_id as $event_category_id) {
+                $eventCategoryWithScores[$event_category_id] = ['score' => $score];
+                $score--;
+            }
+            $event->eventCategories()->sync($eventCategoryWithScores);
             return redirect()->route('organizer.events')->with('success', 'Event updated');
         
         } 

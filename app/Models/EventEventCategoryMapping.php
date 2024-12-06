@@ -10,6 +10,7 @@ class EventEventCategoryMapping extends Pivot
     protected $fillable = [
         'name',
         'notes',
+        'score'
     ];
 
     public function event():BelongsTo{
