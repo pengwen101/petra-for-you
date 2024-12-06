@@ -3,11 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Organizer extends Model
+
+
+class Organizer extends Authenticatable
 {
 
+    use Notifiable;
     protected $fillable = [
         'name',
         'description',

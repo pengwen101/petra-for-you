@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'organizer' => [
+            'driver' => 'session',
+            'provider' => 'organizers',
+        ],
     ],
 
     /*
@@ -62,7 +66,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
+        ],
+
+        'organizers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Organizer::class,
         ],
 
         // 'users' => [
@@ -93,6 +102,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'organizers' => [
+            'provider' => 'organizers',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
