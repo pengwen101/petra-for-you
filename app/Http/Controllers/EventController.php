@@ -204,6 +204,14 @@ class EventController extends Controller
         }
     }
 
+    public function toggleEvent(Event $event)
+    {
+        $event->is_shown = !$event->is_shown;
+        $event->save();
+        return redirect()->route('organizer.events');
+
+    }
+
     public function deleteEvent(Request $request){
         $request->validate([
             'id' => 'required|exists:events,id'
