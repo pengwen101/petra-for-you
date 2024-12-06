@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\EventCategoryController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -89,14 +90,45 @@ Route::middleware('admin.guest')->group(function () {
     Route::post('/admin/login', [AdminController::class, 'login']);
 });
 Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
-    Route::get('/dashboard', function () {
+    Route::get('/', function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
-    // tag and category
+
+    // Events
+    Route::get('/event', [EventController::class, 'index'])->name('event');
+    Route::post('/event', [EventController::class, 'add'])->name('event.add');
+    Route::put('/event/{event}', [EventController::class, 'update'])->name('event.update');
+    Route::delete('/event/{event}', [EventController::class, 'remove'])->name('event.remove');
+
+    // Tag
     Route::get('/tag', [TagController::class, 'index'])->name('tag');
     Route::post('/tag', [TagController::class, 'add'])->name('tag.add');
     Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
     Route::delete('/tag/{tag}', [TagController::class, 'remove'])->name('tag.remove');
+
+    // Category
+    Route::get('/category', [EventCategoryController::class, 'index'])->name('category');
+    Route::post('/category', [EventCategoryController::class, 'add'])->name('category.add');
+    Route::put('/category/{category}', [EventCategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{category}', [EventCategoryController::class, 'remove'])->name('category.remove');
+
+    // Booking
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::post('/booking', [BookingController::class, 'add'])->name('booking.add');
+    Route::put('/booking/{booking}', [BookingController::class, 'update'])->name('booking.update');
+    Route::delete('/booking/{booking}', [BookingController::class, 'remove'])->name('booking.remove');
+
+    // Organizer
+    Route::get('/organizer', [OrganizerController::class, 'index'])->name('organizer');
+    Route::post('/organizer', [OrganizerController::class, 'add'])->name('organizer.add');
+    Route::put('/organizer/{organizer}', [OrganizerController::class, 'update'])->name('organizer.update');
+    Route::delete('/organizer/{organizer}', [OrganizerController::class, 'remove'])->name('organizer.remove');
+
+    // Admin
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::post('/admin', [AdminController::class, 'add'])->name('admin.add');
+    Route::put('/admin/{admin}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/{admin}', [AdminController::class, 'remove'])->name('admin.remove');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');

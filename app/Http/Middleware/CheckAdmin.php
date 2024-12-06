@@ -9,16 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('admin')->check()) {
+        $admin = Auth::guard('admin')->user();
+
+        if (!$admin) {
             return redirect()->route('admin.login');
         }
+
+        if (!$admin->active) {
+            Auth::guard('admin')->logout();
+            return redirect()->route('admin.login')->with('error', 'Your account is inactive.');
+        }
+
         return $next($request);
     }
 }

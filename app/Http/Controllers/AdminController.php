@@ -27,79 +27,76 @@ class AdminController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard')->with('success', 'Login successful');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->with('error', 'Invalid name or password');
     }
 
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+    }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $admins = Admin::all()->sortByDesc('created_at');
-        return view('myAdmin.admin.index', ['admins' => $admins]);
+        $admins = Admin::all();
+        return view('myAdmin.admin.index', compact('admins'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function add(Request $request)
     {
-        return view('myAdmin.admin.create');
+        $request->validate([
+            'name' => 'required|max:255',
+            'password' => 'required|min:8',
+        ]);
+
+        Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()->route('admin.admin')->with('success', 'Admin successfuly created');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreAdminRequest $request): RedirectResponse
+    public function update(Request $request, $id)
     {
-        $validated = $request->validated();
-        Admin::create($validated);
+        $admin = Admin::findOrFail($id);
 
-        return redirect()->route('admin.index')->with('success', 'Admin created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        return view('myAdmin.admin.show', ['admin' => $admin]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Admin $admin)
-    {
-        return view('myAdmin.admin.edit', ['admin' => $admin]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAdminRequest $request, Admin $admin): RedirectResponse
-    {
-        $validated = $request->validated();
-        $admin->update($validated);
-
-        return redirect()->route('admin.index')->with('success', 'Admin updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin): RedirectResponse
-    {
         if ($admin->is_root) {
-            return back()->with('error', 'Cannot delete a super admin.');
+            return redirect()->route('admin.admin')->with('error', 'Cannot modify root admin');
         }
 
-        $admin->delete();
+        $request->validate([
+            'name' => 'required|max:255',
+            'password' => 'required|min:8',
+        ]);
 
-        return redirect()->route('admin.index')->with('success', 'Admin deleted successfully.');
+        $adminData = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        if ($request->password) {
+            $adminData['password'] = bcrypt($request->password);
+        }
+
+        $admin->update($adminData);
+
+        return redirect()->route('admin.admin')->with('success', 'Admin successfully updated');
+    }
+
+    public function remove($id)
+    {
+        $admin = Admin::findOrFail($id);
+
+        if ($admin->is_root) {
+            return redirect()->route('admin.admin')->with('error', 'Cannot deactivate root admin');
+        }
+
+        $admin->update(['active' => false]);
+
+        return redirect()->route('admin.admin')->with('success', 'Admin successfully deactivated');
     }
 }
