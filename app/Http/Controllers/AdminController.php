@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
 use App\Models\Admin;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -18,38 +16,62 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'password' => 'required|string',
+        ], [
+            'name.required' => 'Please enter your username.',
+            'password.required' => 'Please enter your password.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.login')
+                ->with('error', $validator->errors()->first())
+                ->withInput();
+        }
 
         $credentials = $request->only('name', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            $admin = Auth::guard('admin')->user();
+
+            if (!$admin->is_active) {
+                Auth::guard('admin')->logout();
+                return back()->with('error', 'Your account is not active.');
+            }
+
             $request->session()->regenerate();
+
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->with('error', 'Invalid name or password');
+        return back()->with('error', 'Invalid username or password.');
     }
 
     public function logout()
     {
         Auth::guard('admin')->logout();
+        return back();
     }
 
     public function index()
     {
-        $admins = Admin::all();
-        return view('myAdmin.admin.index', compact('admins'));
+        $admins = Admin::all(['id', 'name', 'active']);
+        return view('myAdmin.admin.admin', compact('admins'));
     }
 
     public function add(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'password' => 'required|min:8',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.admin')
+                ->with('error', $validator->errors()->first())
+                ->withInput();
+        }
 
         Admin::create([
             'name' => $request->name,
@@ -57,7 +79,7 @@ class AdminController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('admin.admin')->with('success', 'Admin successfuly created');
+        return redirect()->route('admin.admin')->with('success', 'Admin successfully created');
     }
 
     public function update(Request $request, $id)
@@ -68,10 +90,16 @@ class AdminController extends Controller
             return redirect()->route('admin.admin')->with('error', 'Cannot modify root admin');
         }
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'password' => 'required|min:8',
+            'password' => 'nullable|min:8',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.admin')
+                ->with('error', $validator->errors()->first())
+                ->withInput();
+        }
 
         $adminData = [
             'name' => $request->name,
