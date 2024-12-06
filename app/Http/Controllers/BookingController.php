@@ -10,6 +10,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
+
+    public function index(){
+
+        $bookings = Booking::all();
+
+        return view('myAdmin.booking.index', ['bookings' => $bookings]);
+    }
     public function show(Event $event)
     {
         return view('booking.booking', ['event'=> $event]);

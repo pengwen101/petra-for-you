@@ -96,6 +96,12 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::post('/tag', [TagController::class, 'add'])->name('tag.add');
     Route::put('/tag/{tag}', [TagController::class, 'update'])->name('tag.update');
     Route::delete('/tag/{tag}', [TagController::class, 'remove'])->name('tag.remove');
+
+    // booking
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::post('/booking/store', [TagController::class, 'store'])->name('booking.store');
+    Route::put('/booking/{booking}', [TagController::class, 'update'])->name('booking.update');
+    Route::delete('/booking/{booking}', [TagController::class, 'remove'])->name('booking.remove');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');

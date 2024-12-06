@@ -10,6 +10,7 @@
 <body>
     @include('myAdmin.nav')
     @yield('contents')
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
     <script type="module">
         @if (session('success'))
             Swal.fire({
@@ -27,6 +28,7 @@
             });
         @endif
     </script>
+    @yield('script')
 </body>
 
 </html>
