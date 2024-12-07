@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <span class="text-lg font-bold">Admin Panel</span>
+                <img src="{{asset('images/pfy7.png')}}" class="h-10 inline" />
             </div>
 
             <div class="hidden md:block">
@@ -12,7 +12,7 @@
                     <a href="{{ route('admin.user') }}"
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">User</a>
                     <a href="{{ route('admin.event') }}"
-                        class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Events</a>
+                        class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Event</a>
                     <a href="{{ route('admin.tag') }}"
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Tag</a>
                     <a href="{{ route('admin.category') }}"
@@ -27,7 +27,7 @@
             </div>
 
             <div class="-mr-2 flex md:hidden">
-                <button
+                <button id="menu-button"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" aria-hidden="true">
@@ -39,14 +39,14 @@
         </div>
     </div>
 
-    <div class="md:hidden">
+    <div id="mobile-menu" class="md:hidden hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="{{ route('admin.dashboard') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Dashboard</a>
             <a href="{{ route('admin.user') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">User</a>
             <a href="{{ route('admin.event') }}"
-                class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Events</a>
+                class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Event</a>
             <a href="{{ route('admin.tag') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Tag</a>
             <a href="{{ route('admin.category') }}"
@@ -60,3 +60,10 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.getElementById('menu-button').addEventListener('click', function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>

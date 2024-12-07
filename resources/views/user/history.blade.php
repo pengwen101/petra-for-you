@@ -44,6 +44,7 @@
                                 <x-slot name="start_date">{{ $start_date }}</x-slot>
                                 <x-slot name="end_date">{{ $end_date }}</x-slot>
                                 <x-slot name="event_id">{{ $booking->event->id }}</x-slot> 
+                                <x-slot name="booking_id">{{ $booking->id}}</x-slot> 
                             </x-cards.bookmark-review>
                         </div>
                     @endforeach

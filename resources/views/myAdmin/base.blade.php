@@ -7,6 +7,8 @@
     <title>myAdmin</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     @yield('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -22,13 +24,16 @@
         </main>
         <footer class="bg-gray-800 text-white py-4 mt-6">
             <div class="container mx-auto text-center text-sm">
-                &copy; {{ date('Y') }} myAdmin. All rights reserved.
+                &copy; {{ date('Y') }} Petra for You myAdmin. All rights reserved.
             </div>
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 
     <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+        });
         @if (session('success'))
             Swal.fire({
                 icon: 'success',

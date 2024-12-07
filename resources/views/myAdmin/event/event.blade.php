@@ -1,11 +1,11 @@
 @extends('myAdmin.base')
 
 @section('contents')
-<div class="container mx-auto p-4">
-    <div class="flex justify-between items-center mb-4">
-        <span class="text-2xl font-bold">Event</span>
+<div class="container mx-auto p-10 m-10">
+    <div class="flex justify-between mb-6">
+        <h3 class="text-xl font-bold">Event</h3>
     </div>
-    <table class="min-w-full bg-white mt-4">
+    <table id="events-table" class="min-w-full bg-white mt-4">
         <thead>
             <tr>
                 <th class="py-2 px-4 border-b">ID</th>
@@ -58,4 +58,15 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.getElementById("events-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+            const dataTable = new simpleDatatables.DataTable("#events-table", {
+                searchable: true,
+                sortable: true
+            });
+        }
+    });
+</script>
 @endsection

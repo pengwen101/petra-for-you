@@ -10,6 +10,7 @@ use App\Models\UserTagMapping;
 use App\Models\EventTagMapping;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -24,7 +25,14 @@ class EventController extends Controller
             $events = Event::where('is_shown', 1)->with('tags', 'eventCategories')->find($request->get('id'));
             return response()->json($events);
         }
-        $events = Event::where('is_shown', 1)->with('tags', 'eventCategories')->get();
+
+        $bookings_booked = Booking::where('user_id',Auth::user()->id )->pluck('event_id');
+        $events = Event::where('is_shown', 1)
+        ->whereNotIn('id', $bookings_booked)
+        ->with('tags', 'eventCategories')->get();
+
+        
+
         return response()->json($events);
     }
 
