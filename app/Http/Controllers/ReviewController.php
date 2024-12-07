@@ -93,7 +93,7 @@ class ReviewController extends Controller
             $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
-                $scores[] = ($eventTagMapping->score * $request->star-2);
+                $scores[] = ($eventTagMapping->score * $request->stars-2);
             }
 
             $this->suggest($eventTagMappings, $booking->user->id, $scores);
@@ -104,7 +104,7 @@ class ReviewController extends Controller
             $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
-                $scores[] = ($eventTagMapping->score * $request->star-3);
+                $scores[] = ($eventTagMapping->score * $request->stars-3);
             }
 
             $this->unsuggest($eventTagMappings, $booking->user->id, $scores);
