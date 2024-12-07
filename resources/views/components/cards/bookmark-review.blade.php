@@ -36,7 +36,7 @@
 
         <div class="sm:flex sm:items-end sm:justify-end">
         <a
-            href="{{ route('user.review', $random) }}"
+            href="/user/history/review/{{$booking_id}}"
             class="block bg-yellow-300 dark:bg-gray-800 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 dark:text-yellow-300 dark:hover:text-yellow-400 transition hover:bg-yellow-400"
         >
             Review

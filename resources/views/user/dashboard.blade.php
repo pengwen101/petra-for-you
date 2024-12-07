@@ -5,7 +5,7 @@
     <div class = "mt-[-64px] mx-auto px-20 py-10 h-screen w-full flex justify-center items-center">
         <div class = "flex sm:flex-row flex-col gap-10 justify-center items-center w-full h-full">
             <div class = "flex flex-col gap-3 justify-center h-full w-[30%]">
-                <div class = "text-3xl text-dark-blue">Lorem ipsum dolor sit amet.!</div>
+                <div class = "text-3xl text-dark-blue">Welcome back, {{Auth::user()->name}}!</div>
                 <div class = "to-below cursor-pointer px-4 py-2 w-fit  bg-summer text-white">Explore events, for you.</div>
             </div>
 
@@ -56,7 +56,13 @@
 
     <div class="py-10 min-h-screen" id = "events-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class = "text-xl font-bold dark:text-gray-200">You might like these...</h2>
+            <h2 class = "text-xl font-bold dark:text-gray-200">Events for you</h2>
+
+            @foreach($tags as $tag)
+
+                <div class = "text-lg">{{$tag}}</div>
+
+            @endforeach
 
             <div id = "suggested-events" class="py-5 flex gap-5 pb-10 overflow-y-auto dark:text-gray-200 ">
                 @foreach ($suggestedEvents as $event)

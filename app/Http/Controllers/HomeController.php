@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Tag;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -19,7 +20,12 @@ class HomeController extends Controller
         $todayDate = Carbon::today();
         $user = Auth::user();
 
-        $eventsThisMonth = Event::where('max_register_date', "<=", $todayDate)->get();
+        $startOfMonth = $todayDate->startOfMonth();
+        $endOfMonth = $todayDate->endOfMonth();
+
+        $eventsThisMonth = Event::whereBetween('start_date', [$startOfMonth, $endOfMonth])
+        ->where('start_date', '>=', $todayDate)
+        ->get();
 
         $userTags = UserTagMapping::where('user_id', $user->id)
         ->get()
@@ -31,8 +37,9 @@ class HomeController extends Controller
 
         $suggestedEvents = Event::whereIn('id', $events)->with('tags')->get();
 
+        $tags = Tag::whereIn('id', $userTags)->pluck('name');
 
-        return view('user.dashboard', ['eventsThisMonth' => $eventsThisMonth, 'suggestedEvents' =>$suggestedEvents]);
+        return view('user.dashboard', ['tags' => $tags, 'eventsThisMonth' => $eventsThisMonth, 'suggestedEvents' =>$suggestedEvents]);
         
     }
     public function getSuggestedEvents(User $user){

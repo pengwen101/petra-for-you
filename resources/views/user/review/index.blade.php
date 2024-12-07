@@ -9,7 +9,7 @@
     </x-slot>
     <div class="py-12">
         @php
-            $start_date = Carbon::parse($event->start_date);
+            $start_date = Carbon::parse($booking->start_date);
             $year = $start_date->format('Y');
             $month = $start_date->format('M');
             $day = $start_date->format('d');
@@ -32,7 +32,7 @@
                 <div class="hidden sm:block sm:basis-56 max-w-96">
                     <img
                     alt=""
-                    src="https://picsum.photos/300/300?random={{ $event->id }}" 
+                    src="https://picsum.photos/300/300?random={{ $booking->id }}" 
                     class="aspect-square h-full w-full object-cover"
                     />
                 </div>
@@ -54,12 +54,12 @@
                     </div>
                     <p href="#">
                         <h3 class="font-bold uppercase text-gray-900 dark:text-gray-200">
-                        {{ $event->event->title }}
+                        {{ $booking->event->title }}
                         </h3>
                     </p>
 
                     <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700 dark:text-gray-300">
-                        {{ $event->event->description }}
+                        {{ $booking->event->description }}
                     </p>
                     </div>
                 </div>
@@ -109,9 +109,9 @@
                         </div>
                     @endif
                 @endforeach
-                @if ($event->where('status', 'finished') && $reviews->where('user_id', Auth::id())->where('review', '')->isNotEmpty())
+                @if ($booking->where('status', 'finished') && $reviews->where('user_id', Auth::id())->where('review', '')->isNotEmpty())
                     <div class="flex justify-center mt-4">
-                        <form action="{{ route('user.createReview', ['id' => $booking->id]) }}" method="POST"></form>
+                        <form action="{{ route('user.createReview', ['id' => $booking->id]) }}" method="POST">
                             @csrf
                             <button type="submit" class="bg-summer hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">
                                 Write a Review

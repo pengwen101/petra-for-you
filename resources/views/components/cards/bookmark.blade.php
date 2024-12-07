@@ -35,7 +35,7 @@
         </div>
 
         <div class="sm:flex sm:items-end sm:justify-end">
-            <a href="/detail/{{$event_id}}"
+            <a href="/user/detail/{{$event_id}}"
                 class="block bg-summer px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 See Detail
             </a>
