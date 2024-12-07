@@ -88,10 +88,8 @@
                             let truncatedDescription = event.description.substring(0, 70);
                             let start_date = new Date(event.start_date);
                             let end_date = new Date(event.end_date);
-                            start_date =
-                                `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
-                            end_date =
-                                `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+                            let max_register_date = new Date(event.max_register_date);
+                       
                             html += `
                                 <div class='flex-none w-64 shadow-lg rounded-lg '>
                                     <x-cards.base>
@@ -150,10 +148,14 @@
                             let truncatedDescription = event.description.substring(0, 100);
                             let start_date = new Date(event.start_date);
                             let end_date = new Date(event.end_date);
+                            let max_register_date = new Date(event.max_register_date);
                             start_date =
                                 `${start_date.getDate()}/${start_date.getMonth()+1}/${start_date.getFullYear()}`;
                             end_date =
                                 `${end_date.getDate()}/${end_date.getMonth()+1}/${end_date.getFullYear()}`;
+
+                            max_register_date =
+                                `${max_register_date.getDate()}/${max_register_date.getMonth()+1}/${max_register_date.getFullYear()}`;
                             let eventTagsHtml = '';
                             event.tags.forEach(tag => {
                                 eventTagsHtml +=
