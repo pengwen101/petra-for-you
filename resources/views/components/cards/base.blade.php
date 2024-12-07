@@ -15,7 +15,7 @@
             </p>
         @endisset
 
-        <a href="/detail/{{$event_id}}" class="group inline-flex items-center gap-1 text-sm font-medium text-blue-600 mt-auto">
+        <a href="/user/detail/{{$event_id}}" class="group inline-flex items-center gap-1 text-sm font-medium text-blue-600 mt-auto">
             Find out more
       
             <span aria-hidden="true" class="block transition-all group-hover:ms-0.5 rtl:rotate-180">

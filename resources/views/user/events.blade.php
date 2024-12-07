@@ -204,14 +204,18 @@
         });
         // Fetch bookmarked events
         function fetchBookmarkedEvents() {
+            // let bookmarkedEventIds = [];
             $.ajax({
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
                 type: 'GET',
                 success: function(response) {
-                    let bookmarkedEventIds = response.map(event => event.id);
+                    console.log(response);
+                    
+                    bookmarkedEventIds = response.((ev) => ev.id);
                     console.log(bookmarkedEventIds);
                     $('.bookmark').each(function() {
                         let eventId = $(this).siblings('input[name="event_id"]').val();
+                        console.log(eventId);
                         if (bookmarkedEventIds.includes(parseInt(eventId))) {
                             $(this).find('svg').attr('fill', 'red');
                         }
