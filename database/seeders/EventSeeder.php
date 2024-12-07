@@ -20,12 +20,14 @@ class EventSeeder extends Seeder
 
         $faker = Factory::create();
         $organizer_id_count = Organizer::get()->count();
-        $maxRegisterDate = $faker->dateTimeBetween('2024-11-01', '2024-12-15')->format('Y-m-d');
-        $startDate = $faker->dateTimeBetween($maxRegisterDate, '2024-12-20')->format('Y-m-d');
-        $endDate = $faker->dateTimeBetween($startDate, '2024-12-31')->format('Y-m-d');
-
+       
     
         for ($i = 0; $i < 20; $i++) {
+            $maxRegisterDate = $faker->dateTimeBetween('2024-12-01', '2024-12-15')->format('Y-m-d');
+            $startDate = $faker->dateTimeBetween($maxRegisterDate, '2024-12-25')->format('Y-m-d');
+            $endDate = $faker->dateTimeBetween($startDate, '2024-12-31')->format('Y-m-d');
+
+    
             DB::table("events")->insert([
                 'title' => $faker->sentence(3),
                 'venue' => $faker->sentence(1),
