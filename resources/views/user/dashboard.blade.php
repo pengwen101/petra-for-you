@@ -56,11 +56,11 @@
 
     <div class="py-10 min-h-screen" id = "events-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class = "text-xl font-bold dark:text-gray-200">Events for you</h2>
+            <h2 class = "text-xl font-bold dark:text-gray-200">You seem to like </h2>
 
-            @foreach($tags as $tag)
+            @foreach($userTags as $userTag)
 
-                <div class = "text-lg">{{$tag}}</div>
+                <span class = "px-2 py-1 bg-summer text-midnight text-lg">{{$userTag->tag->name}}</span>
 
             @endforeach
 

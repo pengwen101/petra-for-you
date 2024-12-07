@@ -39,7 +39,7 @@ class EventController extends Controller
     public function getEventBookings($event)
     {
         $bookings = Booking::where('event_id', $event)->with('user')->get();
-
+        // dd($bookings);
         return response()->json($bookings);
     }
 

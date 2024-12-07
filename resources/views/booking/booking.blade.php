@@ -69,7 +69,7 @@
             <!-- Line ID -->
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">Line ID <span class = "text-red-500">*</span></label>
-                <input type="text" id="line-id" name="line-id"
+                <input type="text" id="line-id" name="line_id"
                     class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->line_id}}'
                     >
@@ -83,7 +83,7 @@
             <!-- No Telp -->
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">No Telp <span class = "text-red-500">*</span></label>
-                <input type="text" id="phone-number" name="phone-number"
+                <input type="text" id="phone-number" name="phone_number"
                     class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value = '{{Auth::user()->phone_number}}'
                     >
