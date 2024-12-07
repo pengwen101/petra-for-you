@@ -233,8 +233,12 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function toggleBooking($booking) {
+    public function toggleBooking(Booking $booking) {
+        // dd($booking);
         $booking->is_payment_validated = !$booking->is_payment_validated;
+        // dd($booking);
+        
+        
         $booking->save();
         return redirect()->route('organizer.events');
     }
