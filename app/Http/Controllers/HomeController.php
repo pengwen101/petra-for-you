@@ -18,10 +18,14 @@ class HomeController extends Controller
 
     public function index(){
         $todayDate = Carbon::today();
+
+        
         $user = Auth::user();
 
-        $startOfMonth = $todayDate->startOfMonth();
-        $endOfMonth = $todayDate->endOfMonth();
+        $startOfMonth = (clone $todayDate)->startOfMonth();
+        $endOfMonth = (clone $todayDate)->endOfMonth();
+
+       
 
         $eventsThisMonth = Event::whereBetween('start_date', [$startOfMonth, $endOfMonth])
         ->where('start_date', '>=', $todayDate)
