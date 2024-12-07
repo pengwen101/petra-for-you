@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <span class="text-lg font-bold">Panel</span>
+                <img src="{{asset('images/pfy7.png')}}" class="h-10 inline" />
             </div>
 
             <div class="hidden md:block">
