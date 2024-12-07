@@ -182,8 +182,8 @@ class BookingController extends Controller
             ]);
         }
         $request->validate([
-            'line-id' => 'required',
-            'phone-number' => 'required',
+            'line_id' => 'required',
+            'phone_number' => 'required',
         ]);
 
         $user->update([
