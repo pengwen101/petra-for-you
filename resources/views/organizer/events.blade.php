@@ -466,7 +466,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
+                <div class="p-4 md:p-5 space-y-4 overflow-auto">
 
                     <table id="booking-table">
                         <thead>
@@ -501,11 +501,11 @@
                 </div>
                 <!-- Modal footer -->
                 <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-hide="booking-modal" type="button"
+                    {{-- <button data-modal-hide="booking-modal" type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
-                        accept</button>
+                        accept</button> --}}
                     <button data-modal-hide="booking-modal" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
                 </div>
             </div>
         </div>
@@ -626,6 +626,7 @@
                 modal.classList.remove('hidden');
                 modal.setAttribute('aria-hidden', 'false');
                 const id = $(this).siblings('input').val();
+                console.log(id);
                 $.ajax({
                     url: `/api/events/book-event/${id}`,
                     // data: {
@@ -637,6 +638,7 @@
                         console.log(response);
                         let html = '';
                         if (response) {
+                            console.log(response.length)
 
                             if (response.length == 0) {
                                 html += `<tr>
@@ -652,11 +654,11 @@
                                     <td>${data.payment_url}</td>
                                     <td>
                                     <form action="/organizer/bookings/toggle/${data.id}"
-                                        method="POST">
+                                        method="GET">
                                         @csrf
                                         <label class="inline-flex items-center mb-5 cursor-pointer">
                                             <input type="checkbox" name="is_payment_validated" value="1" class="sr-only peer"
-                                                ${data.is_payment_validated} ? 'checked' : '' onchange="this.form.submit()">
+                                                ${data.is_payment_validated ? 'checked' : ''} onchange="this.form.submit()">
                                             <div
                                                 class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                                             </div>
@@ -665,11 +667,9 @@
                                     </td>
                                 </tr>`;
                                 });
-
-
                             }
-
-                            $('#booking-body').html(html);
+                            console.log(html);
+                            $('#booking-table tbody').html(html);
                         }
                     },
                     error: function(xhr, status, error) {
