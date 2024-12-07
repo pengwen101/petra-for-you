@@ -173,7 +173,6 @@ class BookingController extends Controller
     {
       
         $user = User::where('id', Auth::user()->id)->first();
-       
         $userBooking = Booking::where('user_id', $user->id)->where('event_id', $event->id)->first();
         if($userBooking){
             return response()->json([
@@ -195,11 +194,10 @@ class BookingController extends Controller
             $request->validate([
                 'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
+
+            // Handle file upload
+            $filePath = $request->file('proof_of_payment')->store('proof_of_payments', 'public');
         }
-
-        // Handle file upload
-        $filePath = $request->file('proof_of_payment')->store('proof_of_payments', 'public');
-
         $currentDateTime = Carbon::now();
 
         // Check if the event is ongoing, finished, or not started
