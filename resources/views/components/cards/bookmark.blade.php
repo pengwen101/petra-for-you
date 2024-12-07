@@ -46,13 +46,13 @@
             <input type="hidden" name="event_id" disabled value="{{ $event_id }}">
             <input type="hidden" name="user_id" disabled value="{{ Auth::id() }}">
                 
-            <a href="#"
+            <button
                 class="bookmark block bg-summer px-3 py-2 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
                 <svg class="h-6 w-6 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                 </svg> 
-            </a>
+            </button>
         </div>
     </div>
 </article>

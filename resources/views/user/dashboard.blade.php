@@ -256,10 +256,10 @@
                 url: '/api/events/bookmarks/{{ Auth::id() }}',
                 type: 'GET',
                 success: function(response) {
-                    $bookmarkedEventIds = response.map(event => event.id);
+                    let bookmarkedEventIds = response.map(event => event.id);
                     console.log(bookmarkedEventIds);
                     $('.bookmark').each(function() {
-                        $eventId = $(this).siblings('input[name="event_id"]').val();
+                        let eventId = $(this).siblings('input[name="event_id"]').val();
                         if (bookmarkedEventIds.includes(parseInt(eventId))) {
                             $(this).find('svg').attr('fill', 'red');
                         }
