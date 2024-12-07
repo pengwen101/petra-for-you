@@ -14,12 +14,13 @@ class ReviewController extends Controller
 {
     public function index($event_id)
     {
-        $event = Booking::where('event_id', $event_id)
+        $booking = Booking::where('event_id', $event_id)
             ->first();
         $reviews = Booking::where('event_id', $event_id)
             ->get();
         $averageStars = $reviews->avg('stars');
-        return view('user.review.index', compact('reviews', 'event', 'averageStars'));
+     
+        return view('user.review.index', compact('reviews', 'booking', 'averageStars'));
     }
 
     public function create($id)
@@ -89,7 +90,7 @@ class ReviewController extends Controller
 
         if($request->stars >=3){
             
-            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->where('user_id',$booking->user->id)->get();
+            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
                 $scores[] = ($eventTagMapping->score * $request->star-2);
@@ -100,7 +101,7 @@ class ReviewController extends Controller
 
         if($request->stars <3){
             
-            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->where('user_id',$booking->user->id)->get();
+            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
                 $scores[] = ($eventTagMapping->score * $request->star-3);
@@ -143,22 +144,21 @@ class ReviewController extends Controller
 
 
         if($request->stars >=3){
-            
-            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->where('user_id',$booking->user->id)->get();
+            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
-                $scores[] = ($eventTagMapping->score * $request->star-2);
+                $scores[] = ($eventTagMapping->score * $request->stars-2);
             }
-
+            
             $this->suggest($eventTagMappings, $booking->user->id, $scores);
         }
 
         if($request->stars <3){
             
-            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->where('user_id',$booking->user->id)->get();
+            $eventTagMappings = EventTagMapping::where('event_id', $booking->event->id)->get();
             $scores = [];
             foreach($eventTagMappings as $eventTagMapping){
-                $scores[] = ($eventTagMapping->score * $request->star-3);
+                $scores[] = ($eventTagMapping->score * $request->stars-3);
             }
 
             $this->unsuggest($eventTagMappings, $booking->user->id, $scores);
