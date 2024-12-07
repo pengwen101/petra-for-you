@@ -18,18 +18,22 @@ class EventSeeder extends Seeder
     public function run(): void
     {
 
-        $organizer_id_count = Organizer::get()->count();
-        $event_category_id_count = EventCategory::get()->count();
-        $tag_id_count = Tag::get()->count();
-
         $faker = Factory::create();
+        $organizer_id_count = Organizer::get()->count();
+       
+    
         for ($i = 0; $i < 20; $i++) {
+            $maxRegisterDate = $faker->dateTimeBetween('2024-12-01', '2024-12-15')->format('Y-m-d');
+            $startDate = $faker->dateTimeBetween($maxRegisterDate, '2024-12-25')->format('Y-m-d');
+            $endDate = $faker->dateTimeBetween($startDate, '2024-12-31')->format('Y-m-d');
+
+    
             DB::table("events")->insert([
                 'title' => $faker->sentence(3),
                 'venue' => $faker->sentence(1),
-                'max_register_date' => $faker->date(),
-                'start_date' => $faker->date(),
-                'end_date' => $faker->date(),
+                'max_register_date' => $maxRegisterDate,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
                 'start_time' => $faker->time(),
                 'end_time' => $faker->time(),
                 'description' => $faker->paragraph(),

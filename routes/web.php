@@ -100,6 +100,7 @@ Route::middleware('admin')->prefix('admin')->as('admin.')->group(function () {
     Route::get('/', function () {
         return view('myAdmin.dashboard');
     })->name('dashboard');
+    Route::delete('/logout', [AdminController::class, 'logout'])->name('logout');
 
     // User
     Route::get('/user', [UserController::class, 'index'])->name('user');

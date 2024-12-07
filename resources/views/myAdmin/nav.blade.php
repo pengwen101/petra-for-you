@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <img src="{{asset('images/pfy7.png')}}" class="h-10 inline" />
+                <img src="{{ asset('images/pfy7.png') }}" class="h-10 inline" />
             </div>
 
             <div class="hidden md:block">
@@ -23,6 +23,18 @@
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Organizer</a>
                     <a href="{{ route('admin.admin') }}"
                         class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Admin</a>
+                    <form action="{{ route('admin.logout') }}" method="POST" class="inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-3 py-2 rounded-md text-sm font-medium">
+                            <svg class="inline w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 18 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                                Logout
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -57,6 +69,19 @@
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Organizer</a>
             <a href="{{ route('admin.admin') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700">Admin</a>
+            <form action="{{ route('admin.logout') }}" method="POST" class="block">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-white w-full text-left">
+                    <svg class="inline w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 18 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
+                    </svg>
+                    Logout
+                </button>
+            </form>
         </div>
     </div>
 </nav>

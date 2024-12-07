@@ -18,10 +18,14 @@ class HomeController extends Controller
 
     public function index(){
         $todayDate = Carbon::today();
+
+        
         $user = Auth::user();
 
-        $startOfMonth = $todayDate->startOfMonth();
-        $endOfMonth = $todayDate->endOfMonth();
+        $startOfMonth = (clone $todayDate)->startOfMonth();
+        $endOfMonth = (clone $todayDate)->endOfMonth();
+
+       
 
         $eventsThisMonth = Event::whereBetween('start_date', [$startOfMonth, $endOfMonth])
         ->where('start_date', '>=', $todayDate)
@@ -29,17 +33,16 @@ class HomeController extends Controller
 
         $userTags = UserTagMapping::where('user_id', $user->id)
         ->get()
-        ->sortByDesc('score')->pluck('tag_id');
+        ->sortByDesc('score');
 
-        $events = EventTagMapping::whereIn('tag_id', $userTags)
+        $events = EventTagMapping::whereIn('tag_id', $userTags->pluck('tag_id'))
             ->distinct('event_id')
             ->pluck('event_id');
 
         $suggestedEvents = Event::whereIn('id', $events)->with('tags')->get();
 
-        $tags = Tag::whereIn('id', $userTags)->pluck('name');
 
-        return view('user.dashboard', ['tags' => $tags, 'eventsThisMonth' => $eventsThisMonth, 'suggestedEvents' =>$suggestedEvents]);
+        return view('user.dashboard', ['userTags' => $userTags, 'eventsThisMonth' => $eventsThisMonth, 'suggestedEvents' =>$suggestedEvents]);
         
     }
     public function getSuggestedEvents(User $user){

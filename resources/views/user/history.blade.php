@@ -22,7 +22,7 @@
                         <div class="h-max rounded-lg bg-gray dark:bg-gray-800">
                             @php
                                 $truncatedDescription = strlen($booking->event->description) > 60 ? substr($booking->event->description, 0, 60) . '...' : $booking->event->description;
-                                                
+                                $truncatedTitle = strlen($booking->event->title) > 15 ? substr($booking->event->title, 0, 15) . '...' : $booking->event->title;
                                 // Format dates using PHP
                                 $start_date = \Carbon\Carbon::parse($booking->event->start_date)->format('d/m/Y');
                                 $end_date = \Carbon\Carbon::parse($booking->event->end_date)->format('d/m/Y');
@@ -36,7 +36,7 @@
                             @endphp
                             
                             <x-cards.bookmark-review>
-                                <x-slot name="title">{{ $booking->event->title }}</x-slot>
+                                <x-slot name="title">{{ $truncatedTitle }}</x-slot>
                                 <x-slot name="description">{{ $truncatedDescription }}</x-slot>
                                 <x-slot name="tags">{!! $booking->eventTagsHtml !!}</x-slot>
                                 <x-slot name="random">{{ $booking->event->id }}</x-slot> 
