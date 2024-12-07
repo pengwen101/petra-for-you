@@ -22,7 +22,7 @@
         </main>
         <footer class="bg-gray-800 text-white py-4 mt-6">
             <div class="container mx-auto text-center text-sm">
-                &copy; {{ date('Y') }} myAdmin. All rights reserved.
+                &copy; {{ date('Y') }} Petra for You myAdmin. All rights reserved.
             </div>
         </footer>
     </div>
